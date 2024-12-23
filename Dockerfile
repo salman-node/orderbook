@@ -11,3 +11,4 @@ COPY src/proto ./src/proto
 COPY --from=builder /app/dist/index.js ./index.js
 EXPOSE 9696
 CMD ["node", "/app/index.js"]
+

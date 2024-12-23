@@ -1,0 +1,16 @@
+syntax = "proto3";  // Use Protocol Buffers version 3
+
+package orderbook;  // Define the package name
+
+// The Order message defines the fields for an order
+message Order {
+  required string uid = 1;
+  enum Side {
+    BUY = 0;
+    SELL = 1;
+  }
+  required Side side = 2;
+  required string symbol = 3;
+  required double price = 4;
+  required double quantity = 5;
+}

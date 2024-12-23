@@ -64,10 +64,10 @@ for (const client in sockets) {
   ws.on('message', (msg) => {
     const { type, data } = JSON.parse(msg.toString())
     if (type === 'order') console.log(`< queued: ${data.uid} ${data.order}`)
-    if (type === 'match')
-      console.log(
-        `< matched: ${data.yourOrder.uid} ${data.yourOrder.order} <> ${data.matchedOrder.uid} ${data.matchedOrder.order}`
-      )
+    // if (type === 'match')
+    //   console.log(
+    //     `< matched: ${data.yourOrder.uid} ${data.yourOrder.order} <> ${data.matchedOrder.uid} ${data.matchedOrder.order}`
+    //   )
   })
   sockets[client] = ws
 }

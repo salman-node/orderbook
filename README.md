@@ -161,3 +161,46 @@ Then commands can be issued, and messages/responses will be printed:
 ## License
 
 GNU GPL v3
+                               _
+                             /   \
+               -_-_-_-_-_    \-_-/
+                              | |
+                            /     \
+                          / |     | \
+                        /   |     |   \
+                       ^    |_____|    ^
+                            |     |
+                            |     |
+                            |     |
+                            ^     ^
+
+# STEP TO START MATCH ENGINE PROJECT
+1. npm start : To start matching engine
+2. /src/orderServer.js : To connect client and place order 
+3. /src/orderConsumer.js : To listen to matched or new order placed and store in mysql db.
+4. /src/loadTest.js : To place order.
+
+
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+.\bin\windows\kafka-topics.bat --create --topic execution-report --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+.\bin\windows\kafka-topics.bat --create --topic execution-report-update --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+.\bin\windows\kafka-topics.bat --list --bootstrap-server localhost:9092
+
+key points to look into --
+1. use redis lua script
+2. use mysql batch insert
+3. use proper kafka parttioning - usedifferent topic for each tash eg. seperate for buy and sell
+5. use redis stream instead of redis list
+
+7. Use monitorin6. use proper indexing to mysql tablesg tools like Prometheus and Grafana to track:
+    Redis query performance.
+    Kafka message lag.
+    Consumer processing time.
+    MySQL query performance.
+
+
+
+
+
+                            

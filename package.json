@@ -11,8 +11,14 @@
     "stress": "babel-node tools/stresstest/index.js"
   },
   "dependencies": {
+    "axios": "^1.7.8",
     "dotenv": "^10.0.0",
+    "express": "^4.21.1",
+    "k6": "^0.0.0",
+    "kafkajs": "^2.2.4",
+    "loadtest": "^8.0.9",
     "murmurhash": "^2.0.0",
+    "mysql2": "^3.11.5",
     "protobufjs": "^6.11.2",
     "redis": "^4.0.0-rc.3",
     "ws": "^8.2.0"
@@ -21,6 +27,7 @@
     "@babel/core": "^7.15.0",
     "@babel/node": "^7.14.9",
     "@babel/preset-env": "^7.15.0",
+    "@types/dotenv": "^6.1.1",
     "commander": "^8.2.0",
     "esbuild": "^0.14.21",
     "eslint": "^7.32.0",

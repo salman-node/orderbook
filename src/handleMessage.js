@@ -1,6 +1,8 @@
 import protobuf from 'protobufjs'
 import murmurhash from 'murmurhash'
 import matchOrder from './matchOrder'
+import  sendExecutionReportToKafka from './index.js'
+import { randomUUID } from 'crypto'
 
 export const messageTypes = {
   0: 'order',
@@ -8,19 +10,19 @@ export const messageTypes = {
   2: 'view',
 }
 
-const createMessageHandler = (uid, redisClient) => async (message) => {
+const createMessageHandler = (uid,clientUids,redisClient) => async (message) => {
   const [messageType, data] = message.split('|')
 
   const proto = await protobuf.load('src/proto/order.proto')
 
   const type = messageTypes[messageType]
 
-  if (process.env.LOG_ORDERS) console.log(`message:${uid}:${type}`)
+
 
   try {
     switch (type) {
       case 'order':
-        return await handleOrder({ data, uid, proto, redisClient })
+        return await handleOrder({ data, clientUids, proto, redisClient })
       case 'query':
         return await handleQuery({ data, uid, proto, redisClient })
       case 'view':
@@ -39,32 +41,87 @@ const createMessageHandler = (uid, redisClient) => async (message) => {
   }
 }
 
-const handleOrder = async ({ data, uid, proto, redisClient }) => {
-  const OrderMessage = proto.lookupType('orderbook.Order')
+// const handleOrder = async ({ data, clientUids, proto, redisClient }) => {
+//   const OrderMessage = proto.lookupType('orderbook.Order');
+  
+//   const buf = Buffer.from(data, 'base64');
+//   const decoded = OrderMessage.decode(buf);
+//   const message = OrderMessage.toObject(decoded);
 
+//   if (!clientUids.includes(message.uid)) {
+//     return {
+//       type: 'order',
+//       error: 'Connected user ID does not match message user ID.',
+//     };
+//   }
+  
+//   const uid = message.uid;
+//   await redisClient.INCR('TOTAL_ORDERS');
+
+//   const { side, symbol, price, quantity } = message;
+  
+//   const ts = Date.now();
+//   const adjustmentFactor = 1e10;
+//   const orderString = `${side}:${symbol}`;
+//   const hash = randomUUID();
+
+//   const matchedOrder = await matchOrder({ uid, side, symbol, price, quantity, redisClient });
+
+//   if (matchedOrder) {
+//     await redisClient.INCRBY('TOTAL_MATCHED', 2);
+//     return {
+//       type: 'match',
+//       message: 'Order matched',
+//       data: {
+//         matchedBy: matchedOrder.uid,
+//         matchedAt: Date.now(),
+//         yourOrder: { order: orderString, uid, ts, hash },
+//         matchedOrder,
+//       },
+//     };
+//   } else {
+//     return {
+//       type: 'order',
+//       message: 'Order submitted to queue',
+//       data: {
+//         order: orderString,
+//         uid,
+//         ts,
+//         hash,
+//         price: parseFloat(price),
+//         quantity: parseFloat(quantity),
+//       },
+//     };
+//   }
+// };
+const handleOrder = async ({ data,clientUids, proto, redisClient }) => {
+
+  const OrderMessage = proto.lookupType('orderbook.Order')
+  
   const buf = Buffer.from(data, 'base64')
   const decoded = OrderMessage.decode(buf)
   const message = OrderMessage.toObject(decoded)
 
-  if (uid !== message.uid) {
-    console.log('message rejected: uid mismatch')
+  if (!clientUids.includes(message.uid)) {
+    // console.log('message rejected : uid mismatch')
     return {
       type: 'order',
       error: 'Connected user ID does not match message user ID.',
     }
   }
-
+  const uid = message.uid
   await redisClient.INCR('TOTAL_ORDERS')
 
-  const { side, symbol, price } = message
-
+  const { side, symbol, price, quantity } = message
+  
   const ts = Date.now()
-  const orderString = `${side}:${symbol}@${price}`
-  const hash = murmurhash.v3(`${orderString}-${uid}-${ts}`).toString(16)
-  if (process.env.LOG_ORDERS) console.log(`order:${uid}:${hash}:${orderString}`)
+  const adjustmentFactor = 1e10;
+  const orderString = `${side}:${symbol}`
+  const hash = randomUUID().substring(0, 25);
 
-  const matchedOrder = await matchOrder({ side, symbol, price, redisClient })
-
+  const matchedOrder = await matchOrder({ uid,side, symbol, price, quantity,redisClient })
+  // console.log('ELAPSED TIME:', elapsedTime)
+  // console.log('MATCHED ORDER:',side, matchedOrder)
   if (matchedOrder) {
     await redisClient.INCRBY('TOTAL_MATCHED', 2)
     return {
@@ -78,7 +135,32 @@ const handleOrder = async ({ data, uid, proto, redisClient }) => {
       },
     }
   } else {
-    await redisClient.RPUSH(orderString, JSON.stringify({ uid, ts, hash }))
+    // Ensure price is a valid number and not Infinity or NaN
+    const numericPrice = parseFloat(price)
+    const numericQuantity = parseFloat(quantity)
+
+    if (isNaN(numericPrice) || !isFinite(numericPrice)) {
+      // console.log('Error: Invalid price value:', price)
+      return {
+        type: 'order',
+        error: 'Invalid price value.',
+      }
+    }
+
+    try {
+      console.log(orderString, {score:numericPrice - ts / adjustmentFactor,value:JSON.stringify({ uid, ts, hash, price: numericPrice,quantity:numericQuantity })})
+      await  sendExecutionReportToKafka('trade-engine-message', JSON.stringify({type:1, uid,side, symbol, price, quantity:quantity,hash }))
+      side === 0 ? await redisClient.ZADD(orderString, {score:numericPrice - ts / adjustmentFactor,value:JSON.stringify({ uid, ts, hash, price: numericPrice,quantity:numericQuantity })}) : 
+      await redisClient.ZADD(orderString, {score:numericPrice + ts / adjustmentFactor,value:JSON.stringify({ uid, ts, hash, price: numericPrice,quantity:numericQuantity })})
+ 
+    } catch (error) {
+      console.error('Error adding to sorted set:', error)
+      return {
+        type: 'order',
+        error: 'Failed to add order to sorted set.',
+      }
+    }
+
     return {
       type: 'order',
       message: 'Order submitted to queue',
@@ -87,35 +169,38 @@ const handleOrder = async ({ data, uid, proto, redisClient }) => {
         uid,
         ts,
         hash,
+        price: numericPrice,
+        quantity:numericQuantity
       },
     }
   }
 }
 
-const handleQuery = async ({ data, uid, proto, redisClient }) => {
-  const OrderMessage = proto.lookupType('orderbook.Query')
 
-  const buf = Buffer.from(data, 'base64')
-  const decoded = OrderMessage.decode(buf)
-  const message = OrderMessage.toObject(decoded)
+// const handleQuery = async ({ data, uid, proto, redisClient }) => {
+//   const OrderMessage = proto.lookupType('orderbook.Query')
 
-  if (uid !== message.uid) {
-    console.log('message rejected: uid mismatch')
-    return { type: 'order', error: 'User IDs do not match' }
-  }
+//   const buf = Buffer.from(data, 'base64')
+//   const decoded = OrderMessage.decode(buf)
+//   const message = OrderMessage.toObject(decoded)
 
-  const { side, symbol } = message
+//   if (uid !== message.uid) {
+//     // console.log('message rejected: uid mismatch')
+//     return { type: 'order', error: 'User IDs do not match' }
+//   }
 
-  const keys = await redisClient.KEYS(`${side}:${symbol}*`)
-  const lists = {}
+//   const { side, symbol } = message
 
-  for (const key of keys) {
-    const [, price] = key.split('@')
-    lists[price] = await redisClient.LLEN(key)
-  }
+//   const keys = await redisClient.KEYS(`${side}:${symbol}*`)
+//   const lists = {}
 
-  return { type: 'query', data: lists }
-}
+//   for (const key of keys) {
+//     const [, price] = key.split('@')
+//     lists[price] = await redisClient.LLEN(key)
+//   }
+
+//   return { type: 'query', data: lists }
+// }
 
 const handleView = async ({ data, uid, proto, redisClient }) => {
   const OrderMessage = proto.lookupType('orderbook.View')
@@ -125,7 +210,7 @@ const handleView = async ({ data, uid, proto, redisClient }) => {
   const message = OrderMessage.toObject(decoded)
 
   if (uid !== message.uid) {
-    console.log('message rejected: uid mismatch')
+    // console.log('message rejected: uid mismatch')
     return { type: 'order', error: 'User IDs do not match' }
   }
 
@@ -136,8 +221,6 @@ const handleView = async ({ data, uid, proto, redisClient }) => {
     start,
     stop
   )
-
-  console.log('ORDERS:', orders)
 
   return { type: 'query', data: orders.map((o) => JSON.parse(o)) }
 }
