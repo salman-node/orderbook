@@ -175,17 +175,19 @@ GNU GPL v3
                             ^     ^
 
 # STEP TO START MATCH ENGINE PROJECT
+  * Note - First start zookeper and kafka for mysql update
 1. npm start : To start matching engine
 2. /src/orderServer.js : To connect client and place order 
 3. /src/orderConsumer.js : To listen to matched or new order placed and store in mysql db.
 4. /src/loadTest.js : To place order.
-
-
+      
+# STEPS FOR ZOOKEEPER AND KAFKA EXEC.
 .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
 .\bin\windows\kafka-server-start.bat .\config\server.properties
 .\bin\windows\kafka-topics.bat --create --topic execution-report --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
 .\bin\windows\kafka-topics.bat --create --topic execution-report-update --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
 .\bin\windows\kafka-topics.bat --list --bootstrap-server localhost:9092
+
 
 key points to look into --
 1. use redis lua script
@@ -198,6 +200,12 @@ key points to look into --
     Kafka message lag.
     Consumer processing time.
     MySQL query performance.
+
+
+# PROBLEM IN CODE
+
+1. if order is partially filled, remaining qty order is set to bottom fo all other order with same price , means remaining qty will be filled adter other order which is placed before partialy filling of current order , those will be filled first if price.
+2. remaining qty incorrect.
 
 
 

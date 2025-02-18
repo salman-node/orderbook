@@ -13,4 +13,16 @@ message Order {
   required string symbol = 3;
   required double price = 4;
   required double quantity = 5;
+  required string order_type = 6;
+}
+
+message CancelOrder {
+  required string uid = 1;
+  required string orderId =2;
+   enum Side {
+    BUY = 0;
+    SELL = 1;
+  };
+  required Side side = 3;
+  required string symbol = 4;
 }

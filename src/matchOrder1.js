@@ -2,13 +2,15 @@ import { match } from 'assert';
 import { randomUUID } from 'crypto';
 import { type } from 'os';
 import sendExecutionReportToKafka from './index.js';
+import { exec } from 'child_process';
 
 const matchOrder = async ({ uid, side, symbol, price, quantity, redisClient }) => {
   try {
     console.log('side:',side, 'price:',price, 'quantity:',quantity)
-    const opposingSide = side === 0 ? 1 : 0; // Opposing side: 0 for Buy, 1 for Sell
-    const opposingKey = `${opposingSide}:${symbol}`;
-    const orderKey = `${side}:${symbol}`;
+    const opposingSide = side === 0 ? 'ASK_ORDERS' : 'BID_ORDERS'; // Opposing side: 0 for Buy, 1 for Sell
+    const orderSide = side === 0 ? 'BID_ORDERS' : 'ASK_ORDERS'; // Order side: 0 for Buy, 1 for Sell
+    const opposingKey = `${symbol}:${opposingSide}`;
+    const orderKey = `${symbol}:${orderSide}`;
 
     const ts = Date.now();
     const adjustmentFactor = 1e10;
@@ -30,7 +32,7 @@ const matchOrder = async ({ uid, side, symbol, price, quantity, redisClient }) =
               quantity = tonumber(ARGV[2])
              }
           redis.call('ZADD', KEYS[2], ARGV[4], cjson.encode(newOrder))
-          return { 'ADDED', newOrder }
+          return { 'ADDED', newOrder,0 }
       end
 
       local orderBookData = cjson.decode(orderRange[1])
@@ -50,7 +52,7 @@ const matchOrder = async ({ uid, side, symbol, price, quantity, redisClient }) =
               quantity = tonumber(ARGV[2])
              }
           redis.call('ZADD', KEYS[2], ARGV[4], cjson.encode(newOrder))
-          return { 'ADDED', newOrder }
+          return { 'ADDED', newOrder, 1 }
       end
 
       -- Match or partially match the order
@@ -80,44 +82,21 @@ try{
           hash
         ]
       });
-      console.log('luaResult:',luaResult)
         if (!luaResult) {
-          if (matchedOrders.length > 0) {
-            await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
-              type: 1,
-              uid,
-              side,
-              symbol,
-              price,
-              quantity: remainingQuantity,
-              hash,
-            }));
-             console.log('in partial match' , 'side: ',side , 'remainingQuantity: ',remainingQuantity)
-            await redisClient.multi().ZADD(orderKey, {
-              score: side ===0 ?numericPrice - ts / adjustmentFactor : numericPrice + ts / adjustmentFactor,
-              value: JSON.stringify({
-                side,
-                uid,
-                ts: Date.now(),
-                hash,
-                price,
-                quantity: remainingQuantity,
-              }),
-            }).exec();
-
-            return { order: orderKey, ...matchedOrders };
-          }
           return null;
         }
         if (luaResult[0] === 'ADDED') {
+          console.log('in added', luaResult[2])
           await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
             type: 1,
-            uid,
+            uid,  
             side,
             symbol,
             price,
             quantity,
             hash,
+            status: 'OPEN',
+            script: luaResult[2],
           }));
           return { order: orderKey, added: true };
         }
@@ -126,8 +105,10 @@ try{
         const orderBookData = JSON.parse(orderBookJson);
         const tradeId = await redisClient.INCR('trade_history:id');
 
+        console.log('matchType: ',matchType, 'matchedQuantity: ',matchedQuantity)
+
         // Add trade details to Trade_history list in Redis
-        await redisClient.RPUSH('Trade_history', JSON.stringify({
+        await redisClient.RPUSH(`${symbol}:trade_history`, JSON.stringify({
           id: tradeId,
           qty: matchedQuantity,
           buyer_hash: side === 0 ? hash : orderBookData.hash,
@@ -139,20 +120,52 @@ try{
 
         if (matchType === 'MATCHED') {
           await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
-            type: 3,
-            side: opposingSide,
+            type: 2,
+            side: opposingSide === 'ASK_ORDERS' ? 1 : 0,
             symbol,
+            quantity: orderBookData.quantity,
+            uid: orderBookData.uid,
             hash: orderBookData.hash,
+            price: orderBookData.price,
+            execute_qty: matchedQuantity,
+            status: 'FILLED',
           }));
-        } else if (matchType === 'PARTIAL') {
+          const orderSideStatus = matchedQuantity == quantity ? 'FILLED' : 'PARTIALLY_FILLED';
           await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
-            type: 1,
-            uid,
+            type: 2,
             side,
             symbol,
-            price: orderBookData.price,
-            quantity: matchedQuantity,
+            uid,
+            hash,
+            price,
+            quantity,
+            execute_qty: matchedQuantity,
+            status: orderSideStatus,
+          }));
+        } else if (matchType === 'PARTIAL') { 
+
+          await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
+            type: 2,
+            side: opposingSide === 'ASK_ORDERS' ? 1 : 0,
+            symbol,
+            quantity: orderBookData.quantity,
+            uid: orderBookData.uid,
             hash: orderBookData.hash,
+            price: orderBookData.price,
+            execute_qty: matchedQuantity,
+            status: 'PARTIALLY_FILLED',
+          }));
+          const orderSideStatus = matchedQuantity == quantity ? 'FILLED' : 'PARTIALLY_FILLED';
+          await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
+            type: 2,
+            uid,
+            side: orderSide === 'BID_ORDERS' ? 0 : 1,
+            symbol,
+            price,
+            quantity,
+            execute_qty: matchedQuantity,
+            hash,
+            status: orderSideStatus,
           }));
         }
 
@@ -160,11 +173,11 @@ try{
         matchedOrders.push({ price: orderBookData.price, quantity: matchedQuantity });
 
 
-        await redisClient.multi().RPUSH(`MATCHED:${symbol}`, JSON.stringify({
-          side: opposingSide,
+        await redisClient.multi().RPUSH(`${symbol}:MATCHED`, JSON.stringify({
+          side: opposingSide === 'ASK_ORDERS' ? 1 : 0,
           ...orderBookData,
           remQty:orderBookData.quantity - matchedQuantity
-        })).RPUSH(`MATCHED:${symbol}`, JSON.stringify({
+        })).RPUSH(`${symbol}:MATCHED`, JSON.stringify({
           side,
           uid,
           ts: Date.now(),
@@ -174,24 +187,25 @@ try{
           remQty:remainingQuantity,
         })).exec();
 
-        await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
-          type: 2,
-          uid,
-          side: opposingSide,
-          symbol,
-          price,
-          quantity: matchedQuantity,
-          hash,
-        }));
-        await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
-          type: 2,
-          uid,
-          side,
-          symbol,
-          price,
-          quantity:remainingQuantity,
-          hash,
-        }));
+        // await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
+        //   type: 2,
+        //   uid,
+        //   side: opposingSide,
+        //   symbol,
+        //   price,
+        //   quantity,
+        //   execute_qty: matchedQuantity + remainingQuantity,
+        //   hash,
+        // }));
+        // await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
+        //   type: 2,
+        //   uid,
+        //   side,
+        //   symbol,
+        //   price,
+        //   quantity:remainingQuantity,
+        //   hash,
+        // }));
       }
     } catch (error) {
       console.error('Redis Eval Error:', error);
