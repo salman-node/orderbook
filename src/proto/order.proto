@@ -11,6 +11,7 @@ message Order {
   required double price = 4;
   required double quantity = 5;
   required string order_type = 6;
+  required string hash = 7;
 }
 
 message Query {

@@ -53,7 +53,7 @@ const handleOrder = async ({ data,clientUids, proto, redisClient }) => {
   const message = OrderMessage.toObject(decoded)
 
   if (!clientUids.includes(message.uid)) {
-    // console.log('message rejected : uid mismatch')
+    console.log('message rejected : uid mismatch')
     return {
       type: 'order',
       error: 'Connected user ID does not match message user ID.',
@@ -61,12 +61,12 @@ const handleOrder = async ({ data,clientUids, proto, redisClient }) => {
   }
   const uid = message.uid
 
-  const { side, symbol, price, quantity, order_type } = message
+  const { hash,side, symbol, price, quantity, order_type } = message
   
   const ts = Date.now()
   const adjustmentFactor = 1e10;
   const orderString = `${side}:${symbol}`
-  const hash = randomUUID().substring(0, 25);
+  // const hash = randomUUID().substring(0, 25);
 
   const matchedOrder = await matchOrder({ uid,side, symbol, price, quantity,order_type,redisClient })
   // console.log('ELAPSED TIME:', elapsedTime)

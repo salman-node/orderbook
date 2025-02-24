@@ -2,9 +2,10 @@ import { createPool } from 'mysql2';
 
 const connection = createPool({
   host: 'localhost',
-  database: 'rediscache',
+  database: 'matchengine',
   user: 'root',
   password: 'root',
+  port:3307,
   connectTimeout: 10000,
   connectionLimit: 50, // adjust this value to control the number of connections in the pool
 });       

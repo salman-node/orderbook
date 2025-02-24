@@ -29,7 +29,7 @@ const matchOrder = async ({ uid, side, symbol, price, quantity, redisClient }) =
               ts = ARGV[7],
               hash = ARGV[8],
               price = tonumber(ARGV[3]),
-              quantity = tonumber(ARGV[2])
+              quantity = ARGV[2]
              }
           redis.call('ZADD', KEYS[2], ARGV[4], cjson.encode(newOrder))
           return { 'ADDED', newOrder,0 }
@@ -37,9 +37,9 @@ const matchOrder = async ({ uid, side, symbol, price, quantity, redisClient }) =
 
       local orderBookData = cjson.decode(orderRange[1])
       local orderBookPrice = tonumber(orderBookData.price)
-      local orderBookQuantity = tonumber(orderBookData.quantity)
+      local orderBookQuantity = orderBookData.quantity
       local requestedPrice = tonumber(ARGV[3])
-      local requestedQuantity = tonumber(ARGV[2])
+      local requestedQuantity = ARGV[2]
       local newScore = tonumber(ARGV[4])
 
       -- Price check: Only match if the price conditions are met
@@ -49,18 +49,18 @@ const matchOrder = async ({ uid, side, symbol, price, quantity, redisClient }) =
               ts = ARGV[7],
               hash = ARGV[8],
               price = tonumber(ARGV[3]),
-              quantity = tonumber(ARGV[2])
+              quantity = ARGV[2]
              }
           redis.call('ZADD', KEYS[2], ARGV[4], cjson.encode(newOrder))
           return { 'ADDED', newOrder, 1 }
       end
 
       -- Match or partially match the order
-      if orderBookQuantity <= requestedQuantity then
+      if tonumber(orderBookQuantity) <= tonumber(requestedQuantity) then
           redis.call('ZREM', KEYS[1], orderRange[1])
           return { orderRange[1], 'MATCHED', orderBookQuantity }
       else
-          orderBookData.quantity = orderBookQuantity - requestedQuantity
+          orderBookData.quantity = tonumber(orderBookQuantity) - tonumber(requestedQuantity)
           redis.call('ZREM', KEYS[1], orderRange[1])
           redis.call('ZADD', KEYS[1], newScore, cjson.encode(orderBookData))
           return { orderRange[1], 'PARTIAL', requestedQuantity }
@@ -127,6 +127,7 @@ try{
             uid: orderBookData.uid,
             hash: orderBookData.hash,
             price: orderBookData.price,
+            execution_price: orderBookData.price,
             execute_qty: matchedQuantity,
             status: 'FILLED',
           }));
@@ -138,6 +139,7 @@ try{
             uid,
             hash,
             price,
+            execution_price: orderBookData.price,
             quantity,
             execute_qty: matchedQuantity,
             status: orderSideStatus,
@@ -152,6 +154,7 @@ try{
             uid: orderBookData.uid,
             hash: orderBookData.hash,
             price: orderBookData.price,
+            execution_price: orderBookData.price,
             execute_qty: matchedQuantity,
             status: 'PARTIALLY_FILLED',
           }));
@@ -162,14 +165,17 @@ try{
             side: orderSide === 'BID_ORDERS' ? 0 : 1,
             symbol,
             price,
+            execution_price: orderBookData.price,
             quantity,
             execute_qty: matchedQuantity,
             hash,
             status: orderSideStatus,
           }));
         }
-
+        
+        console.log('remainingQuantity: ',remainingQuantity, 'matchedQuantity: ',matchedQuantity)
         remainingQuantity -= matchedQuantity;
+        console.log('remainingQuantity: ',remainingQuantity)
         matchedOrders.push({ price: orderBookData.price, quantity: matchedQuantity });
 
 

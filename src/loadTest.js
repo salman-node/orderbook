@@ -104,9 +104,9 @@ const buyOrders  = [
   {
     "uid": "bob",
     "side": 0,
-    "symbol": "BTC/INR",
+    "symbol": "BTC/USD",
     "price": 90080,
-    "quantity": 32,
+    "quantity": 8.6,
     "order_type": "limit"
   }
   // {
@@ -224,11 +224,11 @@ const buyOrders  = [
 ];
 const sellOrders = [
   {
-    "uid": "alice",
+    "uid": "10",
     "side": 1,
-    "symbol": "BTC/INR",
+    "symbol": "BTC/USD",
     "price": 90075,
-    "quantity": 8,
+    "quantity": 8.5,
     "order_type": "limit"
   },
   // {
