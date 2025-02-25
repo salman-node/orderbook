@@ -4,7 +4,7 @@ import { type } from 'os';
 import sendExecutionReportToKafka from './index.js';
 import { exec } from 'child_process';
 
-const matchOrder = async ({ uid, side, symbol, price, quantity, redisClient }) => {
+const matchOrder = async ({ hash,uid, side, symbol, price, quantity, redisClient }) => {
   try {
     console.log('side:',side, 'price:',price, 'quantity:',quantity)
     const opposingSide = side === 0 ? 'ASK_ORDERS' : 'BID_ORDERS'; // Opposing side: 0 for Buy, 1 for Sell
@@ -16,7 +16,7 @@ const matchOrder = async ({ uid, side, symbol, price, quantity, redisClient }) =
     const adjustmentFactor = 1e10;
     const numericPrice = parseFloat(price);
 
-    const hash = randomUUID().substring(0, 25);
+    // const hash = randomUUID().substring(0, 25);
     let remainingQuantity = quantity;
     const matchedOrders = [];                               
 

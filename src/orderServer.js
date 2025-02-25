@@ -42,13 +42,26 @@ app.post('/place-order', async (req, res) => {
   }
   const check_balance_asset = side === 0 ? quote_asset_data.id : base_asset_data.id
   const order_amount = side === 0 ? parseFloat(price) * parseFloat(quantity) : quantity
+  const order_amount_for_fee = parseFloat(price) * parseFloat(quantity);
+
+  const trade_fee = await Get_Where_Universal_Data('fees_percent_inr,tds_percent_inr','settings_fees',{id : 1})
+
+  const fee_percent = trade_fee[0].fees_percent_inr
+  const tds_percent = trade_fee[0].tds_percent_inr
+
+  const fee = (parseFloat(order_amount_for_fee) * parseFloat(fee_percent)) / 100
+  const tds = side === 0 ? 0 : (parseFloat(order_amount_for_fee) * parseFloat(tds_percent)) / 100
+
+  const order_amount_with_fee = side === 0 ? parseFloat(order_amount) + parseFloat(fee) : parseFloat(order_amount)
+  const order_amount_estimate_fee = side === 0 ?  parseFloat(order_amount_for_fee) + parseFloat(fee) : (parseFloat(order_amount_for_fee) - parseFloat(fee)) - parseFloat(tds)
+  
 
    const user_balance = await Get_Where_Universal_Data('balance','balances',{user_id : `${uid}` , coin_id : `${check_balance_asset}`})
    
     if(user_balance.length == 0){
       return res.status(400).send({ message: 'Invalid user.' });
     }
-    if(order_amount > user_balance[0].balance){
+    if(Number(order_amount_with_fee) > Number(user_balance[0].balance)){
       return res.status(400).send({ message: 'Insufficient balance.' }); 
     }
 
@@ -82,12 +95,30 @@ app.post('/place-order', async (req, res) => {
   const finalMessage = `0|${base64Message}`
   console.log(finalMessage)
 
+  await Create_Universal_Data('orderbook_open_orders',{
+    order_id:hash,
+    quantity:quantity,
+    execute_qty:0,
+    user_id:uid,
+    coin_id: base_asset_data.id,
+    coin_base: quote_asset_data.id,
+    type: side === 0 ? 'BUY' : 'SELL',
+    price: price,
+    amount: order_amount,
+    tds:tds,
+    fees:fee,
+    final_amount:order_amount_estimate_fee,
+    order_type:"LIMIT",
+    status:"PENDING",
+    date_time : Date.now(),
+  })
+
  await Create_Universal_Data('transactions',{
     user_id: uid,
     coin_id: side == 0 ? quote_asset_data.id : base_asset_data.id,
-    amount: order_amount,
+    amount: order_amount_with_fee,
     opening: user_balance[0].balance,
-    closing: user_balance[0].balance - order_amount,
+    closing: user_balance[0].balance - order_amount_with_fee,
     order_id: hash,
     type: 'Dr',
     remarks: side === 0 ? 'Buy' : 'Sale',
@@ -96,28 +127,21 @@ app.post('/place-order', async (req, res) => {
   })
  
   //debit user balance 
-  if(side === 0){
-  const result = await raw_query('UPDATE balances SET balance = balance - ? WHERE user_id = ? AND coin_id = ?',[parseFloat(order_amount),uid,quote_asset_data.id])
+  const result = await raw_query('UPDATE balances SET balance = balance - ? WHERE user_id = ? AND coin_id = ?',[parseFloat(order_amount_with_fee),uid,check_balance_asset])
   if(result.affectedRows === 1){
     wsClient.send(finalMessage);
     console.log('user_id: ',uid,'assetid: ',quote_asset_data.id,'Quote asset debited: ',order_amount) 
     return res.send({ message: 'Order placed successfully' });
   }
   return res.status(400).send({ message: 'Error while placing order.' });
-}
-if(side === 1){
-  const result = await raw_query('UPDATE balances SET balance = balance - ? WHERE user_id = ? AND coin_id = ?',[parseFloat(quantity),uid,base_asset_data.id])
-  if(result.affectedRows === 1){
-    wsClient.send(finalMessage);
-    console.log('user_id: ',uid,'assetid: ',base_asset_data.id,'Base asset debited: ',quantity)
-    return res.send({ message: 'Order placed successfully' });
-  }
-  return res.status(400).send({ message: 'Error while placing order.' });
-}
+
 });
+
+
 
 app.post('/cancel-order', async (req, res) => {
   const { uid, side, symbol, orderId } = req.body;
+  console.log(uid, side, symbol,orderId)
   if(!uid || !side || !symbol || !orderId) {
     return res.status(400).send({ message: 'send all request data.' });
   }
@@ -128,10 +152,10 @@ app.post('/cancel-order', async (req, res) => {
   const message = OrderMessage.create({
     uid : uid,
     orderId : orderId,
-    side : side,
+    side : parseInt(side),
     symbol : symbol,
   });
-
+  console.log(message)
   // Verify the message before encoding
   const errMsg = OrderMessage.verify(message);
   if (errMsg) {

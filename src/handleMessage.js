@@ -1,7 +1,7 @@
 import protobuf from 'protobufjs'
 import murmurhash from 'murmurhash'
 import matchOrder from './matchOrder1.js'
-// import  sendExecutionReportToKafka from './index.js'
+import  sendExecutionReportToKafka from './index.js'
 import { randomUUID } from 'crypto'
 
 export const messageTypes = {
@@ -29,7 +29,7 @@ const createMessageHandler = (uid,clientUids,redisClient) => async (message) => 
       case 'view':
         return await handleView({ data, uid, proto, redisClient })
       case 'cancelOrder':
-        return await handleCancelOrder({ data, uid, proto, redisClient })
+        return await handleCancelOrder({ data, clientUids, proto, redisClient })
       default:
         return {
           type: 'unknown',
@@ -68,7 +68,7 @@ const handleOrder = async ({ data,clientUids, proto, redisClient }) => {
   const orderString = `${side}:${symbol}`
   // const hash = randomUUID().substring(0, 25);
 
-  const matchedOrder = await matchOrder({ uid,side, symbol, price, quantity,order_type,redisClient })
+  const matchedOrder = await matchOrder({ hash,uid,side, symbol, price, quantity,order_type,redisClient })
   // console.log('ELAPSED TIME:', elapsedTime)
   // console.log('MATCHED ORDER:',side, matchedOrder)
   if (matchedOrder) {
@@ -125,31 +125,41 @@ const handleOrder = async ({ data,clientUids, proto, redisClient }) => {
   }
 }
 
-const handleCancelOrder = async ({ data, uid, proto, redisClient }) => {
+const handleCancelOrder = async ({ data, clientUids, proto, redisClient }) => {
  try{ 
   const OrderMessage = proto.lookupType('orderbook.CancelOrder')
   const buf = Buffer.from(data, 'base64')
   const decoded = OrderMessage.decode(buf)
   const message = OrderMessage.toObject(decoded)
 
-  if (uid !== message.uid) {
-    console.log('message rejected: uid mismatch')
-    return { type: 'cancelOrder', error: 'User IDs do not match' }
-  } else {
+  if (!clientUids.includes(message.uid)) {
+    console.log('message rejected : uid mismatch')
+    return {
+      type: 'order',
+      error: 'Connected user ID does not match message user ID.',
+    }
+  }
+
     const { side, symbol, orderId } = message
+    console.log('orderId:', orderId)
     const orderType = side === 0 ? 'BID_ORDERS' : 'ASK_ORDERS'
     const orderString = `${symbol}:${orderType}`
     const orders = await redisClient.ZRANGE(orderString, 0, -1)
-    const order = orders.find((o) => JSON.parse(o).hash === orderId)
+    console.log('orders:', orders)
+    const order = orders.find((o) => {
+      const { hash, uid } = JSON.parse(o);
+      return hash === orderId && uid === message.uid;
+    });
     if (!order) {
       console.log('message rejected: order not found')
       return { type: 'cancelOrder', error: 'Order not found' }
     } else {
       await redisClient.ZREM(orderString,order)
       console.log('message accepted: order cancelled')
+      await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({type:4,uid: message.uid,side, symbol, hash:orderId,data:order }))
       return { type: 'cancelOrder', message: 'Order cancelled' }        
     }
-    }}catch(e){
+    }catch(e){
       console.log('error:', e)
     }
 
