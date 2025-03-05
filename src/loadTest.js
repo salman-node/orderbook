@@ -83,10 +83,9 @@
 import axios from 'axios';
 import { createClient } from 'redis';
 
-const numOrders = 5; // Number of orders to place
+const numOrders = 100; // Number of orders to place
 const concurrency = 0; // Number of concurrent requests
 const url = 'http://localhost:9696/place-order';
-
 
   const redisClient = createClient({
     username: 'default',
@@ -100,258 +99,258 @@ redisClient.on('error', (err) => console.log('Redis Client Error', err));
 
   await redisClient.connect()
 
-const buyOrders  = [
-  {
-    "uid": "bob",
-    "side": 0,
-    "symbol": "BTC/USD",
-    "price": 90080,
-    "quantity": 8.6,
-    "order_type": "limit"
-  }
-  // {
-  //   "uid": "bob",
-  //   "side": 0,
-  //   "symbol": "BTC/USD",
-  //   "price": 90070,
-  //   "quantity": 12,
-  //   "order_type": "limit"
-  // },
-  // {
-  //   "uid": "bob",
-  //   "side": 0,
-  //   "symbol": "BTC/USD",
-  //   "price": 90180,
-  //   "quantity": 3,
-  //   "order_type": "limit"
-  // },
-  // {
-  //   "uid": "bob",
-  //   "side": 0,
-  //   "symbol": "BTC/USD",
-  //   "price": 89997,
-  //   "quantity": 8,
-  //   "order_type": "limit"
-  // },
-//   {
-//     "uid": "bob",
-//     "side": 0,
-//     "symbol": "BTC/USD",
-//     "price": 90055,
-//     "quantity": 9,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "bob",
-//     "side": 0,
-//     "symbol": "BTC/USD",
-//     "price": 90035,
-//     "quantity": 1,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "bob",
-//     "side": 0,
-//     "symbol": "BTC/USD",
-//     "price": 90005,
-//     "quantity": 5,
-//     "order_type": "limit"
-//   },
+// const buyOrders  = [
 //   {
 //     "uid": "bob",
 //     "side": 0,
 //     "symbol": "BTC/USD",
 //     "price": 90080,
-//     "quantity": 7,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "bob",
-//     "side": 0,
-//     "symbol": "BTC/USD",
-//     "price": 90105,
-//     "quantity": 12,
-//     "order_type": "limit"
-//   }, 
-//   {
-//     "uid": "bob",
-//     "side": 0,
-//     "symbol": "BTC/USD",
-//     "price": 90119,
-//     "quantity": 18,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "bob",
-//     "side": 0,
-//     "symbol": "BTC/USD",
-//     "price": 90220,
-//     "quantity": 6,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "bob",
-//     "side": 0,
-//     "symbol": "BTC/USD",
-//     "price": 90009,
-//     "quantity": 5,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "bob",
-//     "side": 0,
-//     "symbol": "BTC/USD",
-//     "price": 90175,
-//     "quantity": 3,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "bob",
-//     "side": 0,
-//     "symbol": "BTC/USD",
-//     "price": 90162,
-//     "quantity": 2,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "bob",
-//     "side": 0,
-//     "symbol": "BTC/USD",
-//     "price": 90162,
-//     "quantity": 7,
+//     "quantity": 8.6,
 //     "order_type": "limit"
 //   }
-];
-const sellOrders = [
-  {
-    "uid": "10",
-    "side": 1,
-    "symbol": "BTC/USD",
-    "price": 90075,
-    "quantity": 8.5,
-    "order_type": "limit"
-  },
-  // {
-  //   "uid": "alice",
-  //   "side": 1,
-  //   "symbol": "BTC/USD",
-  //   "price": 89998,
-  //   "quantity": 50,
-  //   "order_type": "limit"
-  // },
-  // {
-  //   "uid": "alice",
-  //   "side": 1,
-  //   "symbol": "BTC/USD",
-  //   "price": 90082,
-  //   "quantity": 10,
-  //   "order_type": "limit"
-  // },
-  // {
-  //   "uid": "alice",
-  //   "side": 1,
-  //   "symbol": "BTC/USD",
-  //   "price": 90011,
-  //   "quantity": 5,
-  //   "order_type": "limit"
-  // },
-  // {
-  //   "uid": "alice",
-  //   "side": 1,
-  //   "symbol": "BTC/USD",
-  //   "price": 90034,
-  //   "quantity": 8,
-  //   "order_type": "limit"
-  // },
+//   // {
+//   //   "uid": "bob",
+//   //   "side": 0,
+//   //   "symbol": "BTC/USD",
+//   //   "price": 90070,
+//   //   "quantity": 12,
+//   //   "order_type": "limit"
+//   // },
+//   // {
+//   //   "uid": "bob",
+//   //   "side": 0,
+//   //   "symbol": "BTC/USD",
+//   //   "price": 90180,
+//   //   "quantity": 3,
+//   //   "order_type": "limit"
+//   // },
+//   // {
+//   //   "uid": "bob",
+//   //   "side": 0,
+//   //   "symbol": "BTC/USD",
+//   //   "price": 89997,
+//   //   "quantity": 8,
+//   //   "order_type": "limit"
+//   // },
+// //   {
+// //     "uid": "bob",
+// //     "side": 0,
+// //     "symbol": "BTC/USD",
+// //     "price": 90055,
+// //     "quantity": 9,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "bob",
+// //     "side": 0,
+// //     "symbol": "BTC/USD",
+// //     "price": 90035,
+// //     "quantity": 1,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "bob",
+// //     "side": 0,
+// //     "symbol": "BTC/USD",
+// //     "price": 90005,
+// //     "quantity": 5,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "bob",
+// //     "side": 0,
+// //     "symbol": "BTC/USD",
+// //     "price": 90080,
+// //     "quantity": 7,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "bob",
+// //     "side": 0,
+// //     "symbol": "BTC/USD",
+// //     "price": 90105,
+// //     "quantity": 12,
+// //     "order_type": "limit"
+// //   }, 
+// //   {
+// //     "uid": "bob",
+// //     "side": 0,
+// //     "symbol": "BTC/USD",
+// //     "price": 90119,
+// //     "quantity": 18,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "bob",
+// //     "side": 0,
+// //     "symbol": "BTC/USD",
+// //     "price": 90220,
+// //     "quantity": 6,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "bob",
+// //     "side": 0,
+// //     "symbol": "BTC/USD",
+// //     "price": 90009,
+// //     "quantity": 5,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "bob",
+// //     "side": 0,
+// //     "symbol": "BTC/USD",
+// //     "price": 90175,
+// //     "quantity": 3,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "bob",
+// //     "side": 0,
+// //     "symbol": "BTC/USD",
+// //     "price": 90162,
+// //     "quantity": 2,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "bob",
+// //     "side": 0,
+// //     "symbol": "BTC/USD",
+// //     "price": 90162,
+// //     "quantity": 7,
+// //     "order_type": "limit"
+// //   }
+// ];
+// const sellOrders = [
 //   {
-//     "uid": "alice",
+//     "uid": "10",
 //     "side": 1,
 //     "symbol": "BTC/USD",
-//     "price": 90122,
-//     "quantity": 19,
+//     "price": 90075,
+//     "quantity": 8.5,
 //     "order_type": "limit"
 //   },
-//   {
-//     "uid": "alice",
-//     "side": 1,
-//     "symbol": "BTC/USD",
-//     "price": 90000,
-//     "quantity": 1,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "alice",
-//     "side": 1,
-//     "symbol": "BTC/USD",
-//     "price": 90300,
-//     "quantity": 10,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "alice",
-//     "side": 1,
-//     "symbol": "BTC/USD",
-//     "price": 90099,
-//     "quantity": 2,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "alice",
-//     "side": 1,
-//     "symbol": "BTC/USD",
-//     "price": 90198,
-//     "quantity": 6,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "alice",
-//     "side": 1,
-//     "symbol": "BTC/USD",
-//     "price": 90240,
-//     "quantity": 8,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "alice",
-//     "side": 1,
-//     "symbol": "BTC/USD",
-//     "price": 90112,
-//     "quantity": 5,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "alice",
-//     "side": 1,
-//     "symbol": "BTC/USD",
-//     "price": 90011,
-//     "quantity": 7,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "alice",
-//     "side": 1,
-//     "symbol": "BTC/USD",
-//     "price": 90118,
-//     "quantity": 6,
-//     "order_type": "limit"
-//   },
-//   {
-//     "uid": "alice",
-//     "side": 1,
-//     "symbol": "BTC/USD",
-//     "price": 90101,
-//     "quantity": 0,
-//     "order_type": "limit"
-//   }
-];
+//   // {
+//   //   "uid": "alice",
+//   //   "side": 1,
+//   //   "symbol": "BTC/USD",
+//   //   "price": 89998,
+//   //   "quantity": 50,
+//   //   "order_type": "limit"
+//   // },
+//   // {
+//   //   "uid": "alice",
+//   //   "side": 1,
+//   //   "symbol": "BTC/USD",
+//   //   "price": 90082,
+//   //   "quantity": 10,
+//   //   "order_type": "limit"
+//   // },
+//   // {
+//   //   "uid": "alice",
+//   //   "side": 1,
+//   //   "symbol": "BTC/USD",
+//   //   "price": 90011,
+//   //   "quantity": 5,
+//   //   "order_type": "limit"
+//   // },
+//   // {
+//   //   "uid": "alice",
+//   //   "side": 1,
+//   //   "symbol": "BTC/USD",
+//   //   "price": 90034,
+//   //   "quantity": 8,
+//   //   "order_type": "limit"
+//   // },
+// //   {
+// //     "uid": "alice",
+// //     "side": 1,
+// //     "symbol": "BTC/USD",
+// //     "price": 90122,
+// //     "quantity": 19,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "alice",
+// //     "side": 1,
+// //     "symbol": "BTC/USD",
+// //     "price": 90000,
+// //     "quantity": 1,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "alice",
+// //     "side": 1,
+// //     "symbol": "BTC/USD",
+// //     "price": 90300,
+// //     "quantity": 10,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "alice",
+// //     "side": 1,
+// //     "symbol": "BTC/USD",
+// //     "price": 90099,
+// //     "quantity": 2,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "alice",
+// //     "side": 1,
+// //     "symbol": "BTC/USD",
+// //     "price": 90198,
+// //     "quantity": 6,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "alice",
+// //     "side": 1,
+// //     "symbol": "BTC/USD",
+// //     "price": 90240,
+// //     "quantity": 8,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "alice",
+// //     "side": 1,
+// //     "symbol": "BTC/USD",
+// //     "price": 90112,
+// //     "quantity": 5,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "alice",
+// //     "side": 1,
+// //     "symbol": "BTC/USD",
+// //     "price": 90011,
+// //     "quantity": 7,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "alice",
+// //     "side": 1,
+// //     "symbol": "BTC/USD",
+// //     "price": 90118,
+// //     "quantity": 6,
+// //     "order_type": "limit"
+// //   },
+// //   {
+// //     "uid": "alice",
+// //     "side": 1,
+// //     "symbol": "BTC/USD",
+// //     "price": 90101,
+// //     "quantity": 0,
+// //     "order_type": "limit"
+// //   }
+// ];
 
 // for (let i = 0; i <100; i++) {
 //   const buyOrder = {
 //     uid: `alice`,
 //     side: 0,
-//     symbol: 'BTC/USD',
-//     price: 90000,
-//     quantity: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
+//     symbol: 'BTC/INR',
+//     price: Math.floor(Math.random() * (910 - 900 + 1)) + 900,
+//     quantity: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
 //     order_type: 'limit',
 //   };
 //   buyOrders.push(buyOrder);
@@ -361,43 +360,41 @@ const sellOrders = [
 //   const sellOrder = {
 //     uid: `bob`,
 //     side: 1,
-//     symbol: 'BTC/USD',
-//     price: 90000,
-//     quantity: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
+//     symbol: 'BTC/INR',
+//     price: Math.floor(Math.random() * (920 - 900 + 1)) + 900,
+//     quantity: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
 //     order_type: 'limit',
 //   };
 //   sellOrders.push(sellOrder);
 // }
 
-// const buyOrders = [];
 
+const buyOrders = [];
+const sellOrders = [];
 
-// const buyOrders = [];
-// const sellOrders = [];
+for (let i = 0; i < numOrders; i++) {
+  const buyOrder = {
+    uid: `10`, // Assign Alice to Buy orders
+    side: 0, // 0 for Buy, 1 for Sell
+    symbol: 'BTC/INR',
+    price:  Math.floor(Math.random() * (920 - 900 + 1)) + 900, // Random price between 90000 and 92000
+    quantity: Math.floor(Math.random() * (5 - 1 + 1)) + 1, // Random quantity between 1 and 10
+    order_type: 'limit',
+  };  
+  buyOrders.push(buyOrder);
+}
 
-// for (let i = 0; i < numOrders; i++) {
-//   const buyOrder = {
-//     uid: `alice`, // Assign Alice to Buy orders
-//     side: 0, // 0 for Buy, 1 for Sell
-//     symbol: 'BTC/USD',
-//     price:  Math.floor(Math.random() * (90020 - 90000 + 1)) + 90000, // Random price between 90000 and 92000
-//     quantity: Math.floor(Math.random() * (10 - 1 + 1)) + 1, // Random quantity between 1 and 10
-//     order_type: 'limit',
-//   };  
-//   buyOrders.push(buyOrder);
-// }
-
-// for (let i = 0; i < numOrders; i++) {
-//   const sellOrder = {
-//     uid: `bob`, // Assign Bob to Sell orders
-//     side: 1, // 0 for Buy, 1 for Sell
-//     symbol: 'BTC/USD',
-//     price: Math.floor(Math.random() * (90020 - 90000 + 1)) + 90000, // Random price between 90000 and 92000
-//     quantity: Math.floor(Math.random() * (10 - 1 + 1)) + 1, // Random quantity between 1 and 10
-//     order_type: 'limit',
-//   };
-//   sellOrders.push(sellOrder);
-// }
+for (let i = 0; i < numOrders; i++) {
+  const sellOrder = {
+    uid: `15`, // Assign Bob to Sell orders
+    side: 1, // 0 for Buy, 1 for Sell
+    symbol: 'BTC/INR',
+    price: Math.floor(Math.random() * (920 - 900 + 1)) + 900, // Random price between 90000 and 92000
+    quantity: Math.floor(Math.random() * (5 - 1 + 1)) + 1, // Random quantity between 1 and 10
+    order_type: 'limit',
+  };
+  sellOrders.push(sellOrder);
+}
 
 
 const axiosOptions = {
@@ -420,7 +417,6 @@ const placeBuyOrders = async () => {
   const buyPromises = buyOrders.map((order, i) => {
     return new Promise((resolve) => {
       setTimeout(() => {
-
         placeOrder(order).then(async() => {
           resolve();
           await redisClient.rPush(`BUY:BTCUSD`,JSON.stringify(order))

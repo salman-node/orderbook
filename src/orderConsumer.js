@@ -53,7 +53,6 @@ const consumeMessages = async () => {
           const DataCount = await Get_Where_Universal_Data('id','orderbook_open_orders',{order_id : `${data.hash}`})
           console.log('DataCount : ',DataCount)
           if(DataCount.length == 0){
-            console.log('Order not found errrrrrrrrrrrrrrrrr')
           await Create_Universal_Data('orderbook_open_orders',{
             order_id:data.hash,
             quantity:data.quantity,
@@ -73,11 +72,10 @@ const consumeMessages = async () => {
         }
       }
         if(data.type === 2){
-
-           const result = await raw_query('UPDATE orderbook_open_orders SET execute_qty = execute_qty + ?,status = ? WHERE order_id = ?',[data.execute_qty,data.status,data.hash])
+           const update_status = data.status == "PARTIALLY_FILLED" ? "OPEN" : data.status
+           const result = await raw_query('UPDATE orderbook_open_orders SET execute_qty = execute_qty + ?,status = ? WHERE order_id = ?',[data.execute_qty,update_status,data.hash])
            console.log('result : ',result.affectedRows)
            if(result.affectedRows === 0){
-              console.log('Order not found errrrrrrrrrrrrrrrrr')
               await Create_Universal_Data('orderbook_open_orders',{
                 order_id:data.hash,
                 quantity:data.quantity == null || undefined ? 0 : data.quantity,
@@ -90,7 +88,7 @@ const consumeMessages = async () => {
                 amount: parseFloat(data.price) * parseFloat(data.execute_qty),
                 final_amount: parseFloat(data.execution_price) * parseFloat(data.execute_qty),
                 order_type:"LIMIT",
-                status:data.status,
+                status:update_status,
                 date_time : Date.now(),
               })
             }
@@ -103,23 +101,18 @@ const consumeMessages = async () => {
 
             const order_amount = data.side === 0 ? parseFloat(data.execute_qty) : parseFloat(data.execution_price) * parseFloat(data.execute_qty)
 
-            const fee = (parseFloat(order_amount) * parseFloat(fee_percent)) / 100
-            const tds = data.side === 0 ? 0 : (parseFloat(order_amount) * parseFloat(tds_percent)) / 100
-            console.log('fee : ',fee)
-            console.log('tds : ',tds)
+            const fee = (parseFloat(order_amount) * parseFloat(fee_percent)) / 100;
+            const after_fees_amount = parseFloat(order_amount) - parseFloat(fee);
+            const tds = data.side === 0 ? 0 : (parseFloat(after_fees_amount) * parseFloat(tds_percent)) / 100;
 
-           const order_amount_with_fee = data.side === 0 ?  order_amount : (parseFloat(order_amount) - parseFloat(fee)) - parseFloat(tds)
-            console.log('order_amount_with_fee : ',order_amount_with_fee)
+           const order_amount_with_fee = data.side === 0 ?  order_amount : (parseFloat(order_amount) - parseFloat(fee)) - parseFloat(tds);
 
-            const status = data.status === 'OPEN' || data.status === 'PARTIALLY_FILLED' ? 'PENDING' : 'FILLED'
+            // const status = data.status === 'OPEN' || data.status === 'PARTIALLY_FILLED' ? 'PENDING' : 'FILLED'
             
             // this fee to just update in buy_sell table to show the fee in the order history
             const estimate_fee = (parseFloat(data.execution_price) * parseFloat(data.execute_qty) * parseFloat(fee_percent)) / 100
-            console.log('estimate_fee : ',estimate_fee)
             const order_amount_after_execution =  parseFloat(data.execution_price) * parseFloat(data.execute_qty);
-            console.log('order_amount_after_execution : ',order_amount_after_execution)
             const order_amount_estimate_fee = data.side === 0 ? order_amount_after_execution + estimate_fee : (parseFloat(order_amount_after_execution) - parseFloat(estimate_fee)) - parseFloat(tds)
-            console.log('order_amount_estimate_fee : ',order_amount_estimate_fee)
 
              await Create_Universal_Data('buy_sell',{
                 user_id:data.uid,
@@ -129,12 +122,12 @@ const consumeMessages = async () => {
                 current_usdt_price: data.execution_price,
                 quantity: data.execute_qty,
                 amount: order_amount_after_execution,
-                tds: tds,
-                gst: estimate_fee,
-                final_amount: order_amount_estimate_fee,
+                tds: parseFloat(tds),
+                gst: parseFloat(estimate_fee),
+                final_amount: parseFloat(order_amount_estimate_fee),
                 order_id: data.hash,
                 api_order_id: data.hash,
-                status: status,  
+                status: 'FILLED',  
                 api_status: 1,
                 api_id: 0,
                 response: JSON.stringify(data),
@@ -148,11 +141,10 @@ const consumeMessages = async () => {
                 usdt_convert_rate: 0,
                 base_pair: data.side == 0 ? base_asset_data.id : quote_asset_data.id,
                 order_type: "LIMIT",
-              })
+             });
            
-            
-            const opening_balance_asset = data.side === 0 ? base_asset_data.id : quote_asset_data.id
-            const opening_balance = await Get_Where_Universal_Data('balance','balances',{user_id : `${data.uid}` , coin_id : `${opening_balance_asset}`})
+            const opening_balance_asset = data.side === 0 ? base_asset_data.id : quote_asset_data.id;
+            const opening_balance = await Get_Where_Universal_Data('balance','balances',{user_id : `${data.uid}` , coin_id : `${opening_balance_asset}`});
            
           // Update balance based on the side of the order
           if (data.side === 0) { // BUY
@@ -183,16 +175,23 @@ const consumeMessages = async () => {
                 date_time: Date.now(),
               })
             }
+
+            const order_fee = parseFloat(orderAmount) * parseFloat(fee_percent) / 100
+            const order_amount_with_fee = parseFloat(orderAmount) + parseFloat(order_fee)
+            console.log('order_amount_with_fee TITUU: ',order_amount_with_fee)
+            
+            await raw_query('UPDATE balances_inorder SET balance = balance - ? WHERE user_id = ? AND coin_id = ?', [order_amount_with_fee, data.uid, quote_asset_data.id]);
             
           } else if (data.side === 1) {    // SELL
-            await raw_query('UPDATE balances SET balance = balance + ? WHERE user_id = ? AND coin_id = ?', [order_amount_with_fee, data.uid, quote_asset_data.id]);
-            
+            await raw_query('UPDATE balances SET balance = balance + ? WHERE user_id = ? AND coin_id = ?', [order_amount_with_fee, data.uid, quote_asset_data.id]);  
+            await Create_Universal_Data('tds_user_details',{user_id: data.uid, total_amount:after_fees_amount, amount: tds ,order_id: data.hash, type:1,description:"TDS"}); 
+            await raw_query('UPDATE balances_inorder SET balance = balance - ? WHERE user_id = ? AND coin_id = ?', [data.execute_qty, data.uid, base_asset_data.id]);        
           }
 
           const executed_qty = data.execute_qty == null || undefined ? 0 : data.execute_qty
           const closing_balance = data.side === 0 ? parseFloat(opening_balance[0].balance) + parseFloat(executed_qty) : parseFloat(opening_balance[0].balance) + parseFloat(order_amount_with_fee);
   
-          const transaction_updated = await Create_Universal_Data('transactions',{
+          await Create_Universal_Data('transactions',{
             user_id:data.uid,
             coin_id: data.side === 0 ? base_asset_data.id : quote_asset_data.id,
             amount: order_amount_with_fee,
@@ -204,14 +203,41 @@ const consumeMessages = async () => {
             txn_id: data.hash,
             date_time: Date.now(),
           })
-          console.log('transaction inserted : ',transaction_updated[0].affectedRows)
+
+          // update orderbook_trade_history table 
+          if(data.status === "FILLED"){
+            const get_order_data = await Get_Where_Universal_Data("*",'orderbook_open_orders',{order_id:data.hash})
+            if(get_order_data[0].status == "FILLED"){
+              await Create_Universal_Data('orderbook_trade_history',{
+                order_id:data.hash,
+                quantity:get_order_data[0].quantity,
+                execute_qty:get_order_data[0].execute_qty,
+                user_id:get_order_data[0].user_id,
+                coin_id: base_asset_data.id,
+                coin_base: quote_asset_data.id,
+                type: data.side === 0 ? 'BUY' : 'SELL',
+                price: get_order_data[0].price,
+                amount: get_order_data[0].amount,
+                final_amount:get_order_data[0].final_amount,
+                tds:get_order_data[0].tds,
+                fees:get_order_data[0].fees,  
+                order_type:"LIMIT",
+                status:"FILLED",
+                date_time : Date.now(),  
+                device: 'WEB', 
+              })
+            }
+          }
+          
+          const result2 = await raw_query('INSERT INTO users_trade (user_id, trades, amount) VALUES (?, 1, ?) ON DUPLICATE KEY UPDATE trades = trades + 1, amount = amount + VALUES(amount)', [data.uid, order_amount_with_fee]); 
+          console.log('result2',result2)
         }
 
         // HANDLING CANCELED ORDER
         if(data.type === 4){
-          console.log(data)
+
           const get_orderData = await Get_Where_Universal_Data('*','orderbook_open_orders',{order_id : `${data.hash}`})
-          console.log(get_orderData)
+
           const quantity = get_orderData[0].quantity 
           const executed_qty = get_orderData[0].execute_qty
           const remaining_qty = parseFloat(quantity) - parseFloat(executed_qty)
@@ -219,20 +245,14 @@ const consumeMessages = async () => {
 
           const order_asset = orderType === "BUY" ? get_orderData[0].coin_base : get_orderData[0].coin_id
 
-          console.log('quantity : ',quantity)
-          console.log('executed_qty : ',executed_qty)
-          console.log('remaining_qty : ',remaining_qty)
-
           const opening_balance = await Get_Where_Universal_Data('balance','balances',{user_id : `${data.uid}` , coin_id : `${order_asset}`})
           const opening_bal = opening_balance[0].balance
           var amount = 0
-          console.log('opening_balance : ',opening_balance[0].balance)
           
           if(executed_qty == 0){
             await Update_Universal_Data('orderbook_open_orders',{status:"CANCELLED"},{order_id : `${data.hash}`})
 
             const orderAmount = orderType === "BUY" ? get_orderData[0].final_amount : get_orderData[0].quantity
-            console.log('orderAmount: ',orderAmount)
             amount=orderAmount
 
             await raw_query('UPDATE balances SET balance = balance + ? WHERE user_id = ? AND coin_id = ?',[orderAmount,data.uid,order_asset])
@@ -265,7 +285,29 @@ const consumeMessages = async () => {
             txn_id: data.hash,
             date_time: Date.now(),
           })
-          
+
+          const get_order_data = await Get_Where_Universal_Data("*",'orderbook_open_orders',{order_id:data.hash})
+
+          await Create_Universal_Data('orderbook_trade_history',{
+            order_id:get_order_data[0].hash,
+            quantity:get_order_data[0].quantity,
+            execute_qty:get_order_data[0].execute_qty,
+            user_id:get_order_data[0].user_id,
+            coin_id: get_orderData[0].id,
+            coin_base: get_orderData[0].id,
+            type: get_order_data[0].side === 0 ? 'BUY' : 'SELL',
+            price: get_order_data[0].price,
+            amount: get_orderData[0].amount,
+            final_amount:get_order_data[0].final_amount,
+            order_type:"LIMIT",
+            status:"CANCELLED",
+            date_time : Date.now(), 
+            device: 'WEB',
+            tds:get_order_data[0].tds,
+            fees:get_order_data[0].fees, 
+          });
+
+          await raw_query('UPDATE balances_inorder SET balance = balance - ? WHERE user_id = ? AND coin_id = ?', [amount, data.uid, order_asset]);
         }
       },
     });

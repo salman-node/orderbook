@@ -6,6 +6,7 @@ import base64 from 'base64-js';
 import { Create_Universal_Data , Update_Universal_Data , Get_All_Universal_Data , Get_Where_Universal_Data, raw_query} from './db_query.js'; 
 import WebSocket from 'ws';
 import { randomUUID } from 'crypto';
+import { parse } from 'path';
 
 const wsClient = new WebSocket(`ws://0.0.0.0:5000?user=15`);
 const wsClient1 = new WebSocket(`ws://0.0.0.0:5000?user=10`);
@@ -50,11 +51,13 @@ app.post('/place-order', async (req, res) => {
   const tds_percent = trade_fee[0].tds_percent_inr
 
   const fee = (parseFloat(order_amount_for_fee) * parseFloat(fee_percent)) / 100
-  const tds = side === 0 ? 0 : (parseFloat(order_amount_for_fee) * parseFloat(tds_percent)) / 100
+  const order_amount_after_execution =  parseFloat(order_amount_for_fee) - parseFloat(fee)
+  const tds = side === 0 ? 0 : (parseFloat(order_amount_after_execution) * parseFloat(tds_percent)) / 100
+  console.log('fee',fee)
 
   const order_amount_with_fee = side === 0 ? parseFloat(order_amount) + parseFloat(fee) : parseFloat(order_amount)
   const order_amount_estimate_fee = side === 0 ?  parseFloat(order_amount_for_fee) + parseFloat(fee) : (parseFloat(order_amount_for_fee) - parseFloat(fee)) - parseFloat(tds)
-  
+  console.log('order_amount_estimate_fee',order_amount_estimate_fee)
 
    const user_balance = await Get_Where_Universal_Data('balance','balances',{user_id : `${uid}` , coin_id : `${check_balance_asset}`})
    
@@ -93,7 +96,6 @@ app.post('/place-order', async (req, res) => {
   // Convert the binary buffer to base64 string
   const base64Message = base64.fromByteArray(buffer);
   const finalMessage = `0|${base64Message}`
-  console.log(finalMessage)
 
   await Create_Universal_Data('orderbook_open_orders',{
     order_id:hash,
@@ -104,7 +106,7 @@ app.post('/place-order', async (req, res) => {
     coin_base: quote_asset_data.id,
     type: side === 0 ? 'BUY' : 'SELL',
     price: price,
-    amount: order_amount,
+    amount: parseFloat(price) * parseFloat(quantity),
     tds:tds,
     fees:fee,
     final_amount:order_amount_estimate_fee,
@@ -130,8 +132,8 @@ app.post('/place-order', async (req, res) => {
   const result = await raw_query('UPDATE balances SET balance = balance - ? WHERE user_id = ? AND coin_id = ?',[parseFloat(order_amount_with_fee),uid,check_balance_asset])
   if(result.affectedRows === 1){
     wsClient.send(finalMessage);
-    console.log('user_id: ',uid,'assetid: ',quote_asset_data.id,'Quote asset debited: ',order_amount) 
-    return res.send({ message: 'Order placed successfully' });
+    await raw_query('INSERT INTO balances_inorder (user_id, coin_id, balance) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE balance = balance + VALUES(balance)',[uid,side == 0 ? quote_asset_data.id : base_asset_data.id,order_amount_with_fee])
+    return res.send({ message: 'Order placed successfully',data:{order_id:hash} });
   }
   return res.status(400).send({ message: 'Error while placing order.' });
 
@@ -171,7 +173,6 @@ app.post('/cancel-order', async (req, res) => {
   const finalMessage = `3|${base64Message}`
   console.log(finalMessage)
   wsClient.send(finalMessage);
-
   return res.send({ message: 'Order placed successfully' });
 });
 
