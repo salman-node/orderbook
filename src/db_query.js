@@ -11,9 +11,9 @@ import connection from './db_connection.js';
   const sql = `INSERT INTO ${database_table_name} (${abkey}) VALUES (${abvalue.map(() => '?').join(',')})`;
 
   try {
-    const conn = await connection.promise().getConnection();
+    const conn = await connection.getConnection();
     try {
-      const result = await conn.query(sql, abvalue);
+      const result = await conn.execute(sql, abvalue);
       return result;
     } finally {
       conn.release();
@@ -26,9 +26,9 @@ import connection from './db_connection.js';
 const raw_query = async function (query, values) {
   try {
     const sql = query;
-    const conn = await connection.promise().getConnection();
+    const conn = await connection.getConnection();
     try {
-      const [result] = await conn.query(sql, values);
+      const [result] = await conn.execute(sql, values);
       return result;
     } finally {
       conn.release();
@@ -43,9 +43,9 @@ const raw_query = async function (query, values) {
 const Get_All_Universal_Data = async function (data, database_table_name) {
   const sql = `SELECT ${data} FROM ${database_table_name};`;
   try {
-    const conn = await connection.promise().getConnection();
+    const conn = await connection.getConnection();
     try {
-      const [result] = await conn.query(sql);
+      const [result] = await conn.execute(sql);
       return result;
     } finally {
       conn.release();
@@ -62,11 +62,11 @@ const Get_Where_Universal_Data = async function (data, database_table_name, filt
   const abvalue = Object.values(filterquery);
   const abkeydata = abkey.join("=? and ") + "=?";
   const sql = `SELECT ${data} FROM ${database_table_name} WHERE ${abkeydata}`;
-  console.log(sql);
+
   try {
-    const conn = await connection.promise().getConnection();
+    const conn = await connection.getConnection();
     try {
-      const [result] = await conn.query(sql, abvalue);
+      const [result] = await conn.execute(sql, abvalue);
       return result;
     } finally {
       conn.release();
@@ -91,10 +91,9 @@ const Update_Universal_Data = async function (database_table_name, updatedata, f
   const sql = `UPDATE ${database_table_name} SET ${abkeydata} WHERE ${filterkeydata}`;
 
   try {
-    const conn = await connection.promise().getConnection();
+    const conn = await connection.getConnection();
     try {
-      const result = await conn.query(sql, values);
-      console.log(result.affectedRows + " record(s) updated");
+      const result = await conn.execute(sql, values);
       return result;
     } finally {
       conn.release();
