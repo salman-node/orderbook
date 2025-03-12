@@ -83,7 +83,7 @@
 import axios from 'axios';
 import { createClient } from 'redis';
 
-const numOrders = 5; // Number of orders to place
+const numOrders = 20; // Number of orders to place
 const concurrency = 0; // Number of concurrent requests
 const url = 'http://localhost:9696/place-order';
 
@@ -375,12 +375,12 @@ const sellOrders = [];
 for (let i = 0; i < numOrders; i++) {
   const buyOrder = {
     uid: `10`, // Assign Alice to Buy orders
-    side: 0, // 0 for Buy, 1 for Sell
+    side: 1, // 0 for Buy, 1 for Sell
     symbol: 'BTC/INR',
-    // price:  Math.floor(Math.random() * (905 - 900 + 1)) + 900, // Random price between 90000 and 92000
-    // quantity: Math.floor(Math.random() * (5 - 1 + 1)) + 1, // Random quantity between 1 and 10
-    price:800,
-    quantity:5,
+    price:  Math.floor(Math.random() * (905 - 900 + 1)) + 900, // Random price between 90000 and 92000
+    quantity: Math.floor(Math.random() * (2 - 1 + 1)) + 1, // Random quantity between 1 and 10
+    // price:800,
+    // quantity:5,
     order_type: 'limit',
   };  
   buyOrders.push(buyOrder);
@@ -389,12 +389,12 @@ for (let i = 0; i < numOrders; i++) {
 for (let i = 0; i < numOrders; i++) {
   const sellOrder = {
     uid: `15`, // Assign Bob to Sell orders
-    side: 1, // 0 for Buy, 1 for Sell
+    side: 0, // 0 for Buy, 1 for Sell
     symbol: 'BTC/INR',
-    // price: Math.floor(Math.random() * (905 - 900 + 1)) + 900, // Random price between 90000 and 92000
-    // quantity: Math.floor(Math.random() * (5 - 1 + 1)) + 1, // Random quantity between 1 and 10
-    price:900,
-    quantity:5,
+    price: Math.floor(Math.random() * (905 - 900 + 1)) + 900, // Random price between 90000 and 92000
+    quantity: Math.floor(Math.random() * (2 - 1 + 1)) + 1, // Random quantity between 1 and 10
+    // price:900,
+    // quantity:5,
     order_type: 'limit',
   };
   sellOrders.push(sellOrder);

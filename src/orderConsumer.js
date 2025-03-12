@@ -183,12 +183,13 @@ const consumeMessages = async () => {
                 txn_id: data.hash,
                 date_time: Date.now(),
               })
+              await raw_query('UPDATE balances_inorder SET balance = balance - ? WHERE user_id = ? AND coin_id = ?', [diff_amount_with_fee, data.uid, quote_asset_data.id]);
             }
 
             const order_fee = parseFloat(orderAmount) * parseFloat(fee_percent) / 100
             const order_amount_with_fee = parseFloat(orderAmount) + parseFloat(order_fee)
 
-            
+            console.log("order_amount_with_fee",order_amount_with_fee , data.uid, quote_asset_data.id)
             await raw_query('UPDATE balances_inorder SET balance = balance - ? WHERE user_id = ? AND coin_id = ?', [order_amount_with_fee, data.uid, quote_asset_data.id]);
             
           } else if (data.side === 1) {    // SELL

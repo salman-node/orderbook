@@ -1,0 +1,286 @@
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":{"hash":"079b2073-77a0-4791-850b-b","price":902,"quantity":2,"script":1,"side":0,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"15"}}
+{"level":"info","message":{"hash":"3ffec9c0-1e16-457b-9ab8-1","price":901,"quantity":1,"script":1,"side":0,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"15"}}
+{"level":"info","message":{"hash":"f4ea29c4-3cc9-4bf8-bc9d-5","price":901,"quantity":1,"script":1,"side":0,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"15"}}
+{"level":"info","message":{"hash":"70652063-9016-4f98-9401-2","price":901,"quantity":1,"script":1,"side":0,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"15"}}
+{"level":"info","message":{"hash":"eca7903b-df9c-4b29-a2c6-6","price":904,"quantity":2,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"4121b85d-0ddf-46f5-abca-9","price":904,"quantity":2,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"ca2d4886-48e7-4a09-8bd8-5","price":905,"quantity":1,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"d5a3e54a-5696-4144-9c45-2","price":902,"quantity":2,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"57196079-7338-412f-bace-c","price":902,"quantity":2,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"28aa66b5-a1a2-4ce9-b170-d","price":903,"quantity":1,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":903,"hash":"13d15305-7c4c-476f-b066-3","price":903,"quantity":"1","side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":903,"hash":"4518829d-fd05-4643-93ed-3","price":903,"quantity":"2","side":1,"status":"PARTIALLY_FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":903,"hash":"cf1c8523-737d-43d8-9fc5-0","price":904,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":903,"hash":"5c87d9d6-207f-4f67-8aab-9","price":903,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":903,"hash":"4518829d-fd05-4643-93ed-3","price":903,"quantity":1,"side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":903,"hash":"e06d22b9-fd64-4119-88ec-4","price":905,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":903,"hash":"bbd08071-be75-4133-bceb-9","price":903,"quantity":"2","side":1,"status":"PARTIALLY_FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":903,"hash":"bbd08071-be75-4133-bceb-9","price":903,"quantity":1,"side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":903,"hash":"57fcd7a7-827d-4712-ac24-9","price":905,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":903,"hash":"5b50bee0-ea80-4ea6-9fa9-c","price":903,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":903,"hash":"f5cb0490-a3a1-4a5e-b25f-2","price":903,"quantity":"1","side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":903,"hash":"62e9831e-4fa8-42a7-9494-5","price":904,"quantity":2,"side":0,"status":"PARTIALLY_FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":901,"hash":"5dc0758f-2cae-4d28-a204-f","price":901,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":902,"hash":"079b2073-77a0-4791-850b-b","price":902,"quantity":"2","side":0,"status":"PARTIALLY_FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":901,"hash":"111200f3-a204-4092-bddf-b","price":901,"quantity":1,"side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":902,"hash":"14946a69-c5d2-44f7-a291-5","price":900,"quantity":1,"side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":902,"hash":"079b2073-77a0-4791-850b-b","price":902,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"2","execution_price":901,"hash":"3b23bc88-450a-47af-9b7a-6","price":901,"quantity":"2","side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"2","execution_price":901,"hash":"f957281b-612c-4d4c-aabe-8","price":901,"quantity":2,"side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":902,"hash":"66b861a7-a454-48ad-b426-b","price":902,"quantity":1,"side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":902,"hash":"d5a3e54a-5696-4144-9c45-2","price":902,"quantity":"2","side":1,"status":"PARTIALLY_FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":902,"hash":"62e9831e-4fa8-42a7-9494-5","price":904,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":{"hash":"20131bf2-cdd8-4cda-9f15-2","price":900,"quantity":2,"script":1,"side":0,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"15"}}
+{"level":"info","message":{"hash":"a81f334e-93f6-4519-9d3a-e","price":901,"quantity":1,"script":1,"side":0,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"15"}}
+{"level":"info","message":{"hash":"4134aeee-82bc-4d57-8b30-e","price":900,"quantity":2,"script":1,"side":0,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"15"}}
+{"level":"info","message":{"hash":"2ab5f3b3-614b-450e-9859-3","price":900,"quantity":2,"script":1,"side":0,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"15"}}
+{"level":"info","message":{"hash":"5f30230f-1c1f-47e3-9cb9-9","price":901,"quantity":2,"script":1,"side":0,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"15"}}
+{"level":"info","message":{"hash":"b19a4691-e7fb-443f-9204-9","price":905,"quantity":1,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"6007821e-8bba-4c27-be9b-4","price":902,"quantity":1,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"6a911fce-6646-487c-8d7f-7","price":904,"quantity":1,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"67a754ab-6c6a-4fd5-a867-a","price":902,"quantity":2,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"f7b986cf-b19f-4a59-a116-d","price":905,"quantity":2,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"50d906de-67ef-4dfe-8285-7","price":903,"quantity":1,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"91d2a6be-137d-4b16-a940-3","price":903,"quantity":2,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"hash":"79acc0af-cf7c-480f-8d64-d","price":904,"quantity":1,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":902,"hash":"d5a3e54a-5696-4144-9c45-2","price":902,"quantity":1,"side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"2","execution_price":902,"hash":"57196079-7338-412f-bace-c","price":902,"quantity":"2","side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"2","execution_price":902,"hash":"5ed72c44-75bb-4670-832b-8","price":905,"quantity":2,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":902,"hash":"d4645720-b4cf-4c06-9e8a-5","price":905,"quantity":2,"side":0,"status":"PARTIALLY_FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":903,"hash":"28aa66b5-a1a2-4ce9-b170-d","price":903,"quantity":"1","side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"2","execution_price":904,"hash":"31f55805-53ad-4010-a71b-d","price":904,"quantity":"2","side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"2","execution_price":904,"hash":"4b94697c-e869-4a73-bd78-7","price":904,"quantity":2,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":903,"hash":"85e06115-426e-462c-8d19-b","price":905,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":904,"hash":"703bf9bf-16ee-4f46-b194-4","price":904,"quantity":"2","side":1,"status":"PARTIALLY_FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":904,"hash":"573b7471-1abf-44dc-87b0-9","price":905,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"2","execution_price":901,"hash":"ae75806b-bd11-4f53-a8e1-6","price":901,"quantity":"2","side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":901,"hash":"faa69c2a-2bc5-488a-85ac-6","price":901,"quantity":"1","side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":901,"hash":"8ee475a8-88c6-4272-92f4-3","price":900,"quantity":1,"side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"2","execution_price":901,"hash":"24997088-9129-4891-b7cb-6","price":901,"quantity":2,"side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":904,"hash":"703bf9bf-16ee-4f46-b194-4","price":904,"quantity":1,"side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":1,"execution_price":904,"hash":"d4645720-b4cf-4c06-9e8a-5","price":905,"quantity":2,"side":0,"status":"PARTIALLY_FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":"This is a log message"}
+{"level":"info","message":"This is another log message"}
+{"level":"info","message":{"hash":"60923cd4-242c-49d5-b1f6-6","price":904,"quantity":2,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":902,"hash":"6007821e-8bba-4c27-be9b-4","price":902,"quantity":"1","side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":902,"hash":"75e795c4-2960-4705-a988-8","price":903,"quantity":2,"side":0,"status":"PARTIALLY_FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":902,"hash":"67a754ab-6c6a-4fd5-a867-a","price":902,"quantity":"2","side":1,"status":"PARTIALLY_FILLED","symbol":"BTC/INR","type":2,"uid":"10"}}
+{"level":"info","message":{"execute_qty":"1","execution_price":902,"hash":"75e795c4-2960-4705-a988-8","price":903,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"}}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:02.567Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:02.572Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:02.895Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:02.902Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:02.863Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:02.877Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:02.915Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:02.913Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:02.920Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:02.919Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:02.947Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:02.953Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:02.939Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:02.944Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:02.955Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:02.962Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:03.019Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:02.995Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:03.000Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:03.030Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:03.063Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:03.068Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:03.072Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:03.077Z"}
+{"level":"info","message":"This is a log message","timestamp":"2025-03-11T05:10:03.098Z"}
+{"level":"info","message":"This is another log message","timestamp":"2025-03-11T05:10:03.102Z"}
+{"level":"info","message":{"hash":"5cc13838-3f66-45f8-b8cd-d","price":903,"quantity":1,"script":1,"side":1,"status":"OPEN","symbol":"BTC/INR","type":1,"uid":"10"},"timestamp":"2025-03-11T05:10:58.968Z"}
+{"level":"info","message":{"execute_qty":1,"execution_price":902,"hash":"67a754ab-6c6a-4fd5-a867-a","price":902,"quantity":1,"side":1,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"10"},"timestamp":"2025-03-11T05:10:59.400Z"}
+{"level":"info","message":{"execute_qty":1,"execution_price":902,"hash":"913a98e9-0937-478b-8c4a-c","price":902,"quantity":1,"side":0,"status":"FILLED","symbol":"BTC/INR","type":2,"uid":"15"},"timestamp":"2025-03-11T05:10:59.405Z"}
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is a log message
+info: This is another log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: [object Object]
+info: [object Object]
+info: [object Object]
+info: [object Object]
+info: [object Object]
+{"level":30,"time":1741670305192,"pid":11440,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305193,"pid":11440,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305498,"pid":3580,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305498,"pid":3580,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305498,"pid":27240,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305498,"pid":27240,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305517,"pid":36708,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305518,"pid":36708,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305552,"pid":13452,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305553,"pid":13452,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305552,"pid":1756,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305553,"pid":1756,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305575,"pid":20816,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305575,"pid":20816,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305584,"pid":19452,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305584,"pid":19452,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305593,"pid":26272,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305594,"pid":26272,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305603,"pid":33716,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305604,"pid":33716,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305631,"pid":35724,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305631,"pid":35724,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305656,"pid":1240,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305657,"pid":1240,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670305665,"pid":29688,"hostname":"DESKTOP-5EJ6MVR","msg":"This is a log message"}
+{"level":30,"time":1741670305665,"pid":29688,"hostname":"DESKTOP-5EJ6MVR","msg":"This is another log message"}
+{"level":30,"time":1741670317426,"pid":29688,"hostname":"DESKTOP-5EJ6MVR","type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"f0baed60-685b-4978-8536-3","price":902,"execution_price":902,"execute_qty":"1","status":"FILLED"}
+{"level":30,"time":1741670317446,"pid":29688,"hostname":"DESKTOP-5EJ6MVR","type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"3ffec9c0-1e16-457b-9ab8-1","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+{"level":30,"time":1741670317450,"pid":29688,"hostname":"DESKTOP-5EJ6MVR","type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"e3de971b-8eab-4802-96d9-c","price":903,"execution_price":902,"quantity":1,"execute_qty":"1","status":"FILLED"}
+{"level":30,"time":1741670317452,"pid":29688,"hostname":"DESKTOP-5EJ6MVR","type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"8846a9d3-232e-47f7-99cb-2","price":901,"execution_price":901,"quantity":1,"execute_qty":"1","status":"FILLED"}

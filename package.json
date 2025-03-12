@@ -19,8 +19,10 @@
     "loadtest": "^8.0.9",
     "murmurhash": "^2.0.0",
     "mysql2": "^3.11.5",
+    "pino": "^9.6.0",
     "protobufjs": "^6.11.2",
     "redis": "^4.0.0-rc.3",
+    "winston": "^3.17.0",
     "ws": "^8.2.0"
   },
   "devDependencies": {

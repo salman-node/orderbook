@@ -1,8 +1,20 @@
-import { match } from 'assert';
-import { randomUUID } from 'crypto';
-import { type } from 'os';
 import sendExecutionReportToKafka from './index.js';
-import { exec } from 'child_process';
+const path = require('path');
+const logFilePath = path.join('C:/Users/dell/Desktop/salman/orderbook/src', 'logs.txt');
+const winston = require('winston');
+
+const fileTransport = new winston.transports.File({ filename: logFilePath });
+
+fileTransport.on('error', (err) => {
+  console.error('Winston File Transport Error:', err);
+});
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.simple(),
+  transports: [fileTransport]
+});
+
 
 const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClient }) => {
   try {
@@ -59,9 +71,9 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
       
           -- Recalculate ASK/BID from the order books
           if ARGV[5] == "SELL" then
-              recalculateOrderBook("ASK", KEYS[2]) -- Update ASK list from ASK_ORDERS
+              recalculateOrderBook(KEYS[3], KEYS[2]) -- Update ASK list from ASK_ORDERS
           else
-              recalculateOrderBook("BID", KEYS[2]) -- Update BID list from BID_ORDERS
+              recalculateOrderBook(KEYS[4], KEYS[2]) -- Update BID list from BID_ORDERS
           end
       
           return { 'ADDED', newOrder, 0 }
@@ -82,14 +94,14 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
               hash = ARGV[8],
               price = tonumber(ARGV[3]),
               quantity = ARGV[2]
-          }
+          } 
           redis.call('ZADD', KEYS[2], ARGV[4], cjson.encode(newOrder))
       
           -- Recalculate ASK/BID from the order books
           if ARGV[5] == "SELL" then
-              recalculateOrderBook("ASK", KEYS[2])
+              recalculateOrderBook(KEYS[3], KEYS[2])
           else
-              recalculateOrderBook("BID", KEYS[2])
+              recalculateOrderBook(KEYS[4], KEYS[2])
           end
       
           return { 'ADDED', newOrder, 1 }
@@ -101,9 +113,9 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
       
           -- Recalculate ASK/BID from order books
           if ARGV[5] == "BUY" then
-              recalculateOrderBook("ASK", KEYS[1])
+              recalculateOrderBook(KEYS[3], KEYS[1])
           else
-              recalculateOrderBook("BID", KEYS[1])
+              recalculateOrderBook(KEYS[4], KEYS[1])
           end
       
           return { orderRange[1], 'MATCHED', orderBookQuantity }
@@ -114,65 +126,19 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
       
           -- Recalculate ASK/BID for partially matched orders
           if ARGV[5] == "BUY" then
-              recalculateOrderBook("ASK", KEYS[1])
+              recalculateOrderBook(KEYS[3], KEYS[1])
           else
-              recalculateOrderBook("BID", KEYS[1])
+              recalculateOrderBook(KEYS[4], KEYS[1])
           end
       
           return { orderRange[1], 'PARTIAL', requestedQuantity }
       end`
-
-    // const luaScript = `
-    //   local orderRange = redis.call('ZRANGE', KEYS[1], ARGV[1], ARGV[1], 'WITHSCORES')
-    //   if next(orderRange) == nil then
-    //       local newOrder = {
-    //           uid = ARGV[6],
-    //           ts = ARGV[7],
-    //           hash = ARGV[8],
-    //           price = tonumber(ARGV[3]),
-    //           quantity = ARGV[2]
-    //          }
-    //       redis.call('ZADD', KEYS[2], ARGV[4], cjson.encode(newOrder))
-    //       return { 'ADDED', newOrder,0 }
-    //   end
-
-    //   local orderBookData = cjson.decode(orderRange[1])
-    //   local orderBookPrice = tonumber(orderBookData.price)
-    //   local orderBookQuantity = orderBookData.quantity
-    //   local requestedPrice = tonumber(ARGV[3])
-    //   local requestedQuantity = ARGV[2]
-    //   local newScore = tonumber(ARGV[4])
-
-    //   -- Price check: Only match if the price conditions are met
-    //   if (ARGV[5] == "BUY" and orderBookPrice > requestedPrice) or (ARGV[5] == "SELL" and orderBookPrice < requestedPrice) then
-    //       local newOrder = {
-    //           uid = ARGV[6],
-    //           ts = ARGV[7],
-    //           hash = ARGV[8],
-    //           price = tonumber(ARGV[3]),
-    //           quantity = ARGV[2]
-    //          }
-    //       redis.call('ZADD', KEYS[2], ARGV[4], cjson.encode(newOrder))
-    //       return { 'ADDED', newOrder, 1 }
-    //   end
-
-    //   -- Match or partially match the order
-    //   if tonumber(orderBookQuantity) <= tonumber(requestedQuantity) then
-    //       redis.call('ZREM', KEYS[1], orderRange[1])
-    //       return { orderRange[1], 'MATCHED', orderBookQuantity }
-    //   else
-    //       orderBookData.quantity = tonumber(orderBookQuantity) - tonumber(requestedQuantity)
-    //       redis.call('ZREM', KEYS[1], orderRange[1])
-    //       redis.call('ZADD', KEYS[1], newScore, cjson.encode(orderBookData))
-    //       return { orderRange[1], 'PARTIAL', requestedQuantity }
-    //   end
-    // `;
     
     try {
       while (remainingQuantity > 0) {
         const rangeArg = side === 0 ? 0 : -1;
         const luaResult = await redisClient.eval(luaScript, {
-          keys: [opposingKey, orderKey,],
+          keys: [opposingKey, orderKey,`${symbol}:ASK`, `${symbol}:BID`],
           arguments: [
             rangeArg.toString(),
             remainingQuantity.toString(),
@@ -188,7 +154,18 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
           return null;
         };
         if (luaResult[0] === 'ADDED') {
-          console.log('in added', luaResult[2])
+          logger.info(JSON.stringify({
+            msg:1,
+            type: 1,
+            uid,
+            side,
+            symbol,
+            price,
+            quantity,
+            hash,
+            status: 'OPEN',
+            script: luaResult[2]
+          }));
           await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
             type: 1,
             uid,
@@ -221,6 +198,19 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
         }));
 
         if (matchType === 'MATCHED') {
+          logger.info(JSON.stringify({
+            msg:2,
+            type: 2,
+            side: opposingSide === 'ASK_ORDERS' ? 1 : 0,
+            symbol,
+            quantity: orderBookData.quantity,
+            uid: orderBookData.uid,
+            hash: orderBookData.hash,
+            price: orderBookData.price,
+            execution_price: orderBookData.price,
+            execute_qty: matchedQuantity,
+            status: 'FILLED',
+          }))
           await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
             type: 2,
             side: opposingSide === 'ASK_ORDERS' ? 1 : 0,
@@ -233,7 +223,20 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
             execute_qty: matchedQuantity,
             status: 'FILLED',
           }));
-          const orderSideStatus = matchedQuantity == quantity ? 'FILLED' : 'PARTIALLY_FILLED';
+          const orderSideStatus = matchedQuantity == remainingQuantity ? 'FILLED' : 'PARTIALLY_FILLED';
+          logger.info(JSON.stringify({
+            msg:3,
+            type: 2,
+            side,
+            symbol,
+            uid,
+            hash,
+            price,
+            execution_price: orderBookData.price,
+            quantity:remainingQuantity,
+            execute_qty: matchedQuantity,
+            status: orderSideStatus,
+          }))
           await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
             type: 2,
             side,
@@ -242,12 +245,25 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
             hash,
             price,
             execution_price: orderBookData.price,
-            quantity,
+            quantity:remainingQuantity,
             execute_qty: matchedQuantity,
             status: orderSideStatus,
           }));
         } else if (matchType === 'PARTIAL') {
-
+          const oppsiteSideStatus = matchedQuantity == orderBookData.quantity ? 'FILLED' : 'PARTIALLY_FILLED';
+          logger.info(JSON.stringify({
+            msg:4,
+            type: 2,
+            side: opposingSide === 'ASK_ORDERS' ? 1 : 0,
+            symbol,
+            quantity: orderBookData.quantity,
+            uid: orderBookData.uid,
+            hash: orderBookData.hash,
+            price: orderBookData.price,
+            execution_price: orderBookData.price,
+            execute_qty: matchedQuantity,
+            status: oppsiteSideStatus,
+          }))
           await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
             type: 2,
             side: opposingSide === 'ASK_ORDERS' ? 1 : 0,
@@ -258,9 +274,22 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
             price: orderBookData.price,
             execution_price: orderBookData.price,
             execute_qty: matchedQuantity,
-            status: 'PARTIALLY_FILLED',
+            status: oppsiteSideStatus,
           }));
-          const orderSideStatus = matchedQuantity == quantity ? 'FILLED' : 'PARTIALLY_FILLED';
+          const orderSideStatus = matchedQuantity == remainingQuantity ? 'FILLED' : 'PARTIALLY_FILLED';
+          logger.info(JSON.stringify({
+            msg:5,
+            type: 2,
+            uid,
+            side: orderSide === 'BID_ORDERS' ? 0 : 1,
+            symbol,
+            price,
+            execution_price: orderBookData.price,
+            quantity: remainingQuantity, 
+            execute_qty: matchedQuantity,
+            hash,
+            status: orderSideStatus,
+          }))
           await sendExecutionReportToKafka('trade-engine-message', JSON.stringify({
             type: 2,
             uid,
@@ -268,7 +297,7 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
             symbol,
             price,
             execution_price: orderBookData.price,
-            quantity,
+            quantity: remainingQuantity, 
             execute_qty: matchedQuantity,
             hash,
             status: orderSideStatus,
@@ -328,5 +357,54 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
 
 
 export default matchOrder;
+
+
+
+
+    // const luaScript = `
+    //   local orderRange = redis.call('ZRANGE', KEYS[1], ARGV[1], ARGV[1], 'WITHSCORES')
+    //   if next(orderRange) == nil then
+    //       local newOrder = {
+    //           uid = ARGV[6],
+    //           ts = ARGV[7],
+    //           hash = ARGV[8],
+    //           price = tonumber(ARGV[3]),
+    //           quantity = ARGV[2]
+    //          }
+    //       redis.call('ZADD', KEYS[2], ARGV[4], cjson.encode(newOrder))
+    //       return { 'ADDED', newOrder,0 }
+    //   end
+
+    //   local orderBookData = cjson.decode(orderRange[1])
+    //   local orderBookPrice = tonumber(orderBookData.price)
+    //   local orderBookQuantity = orderBookData.quantity
+    //   local requestedPrice = tonumber(ARGV[3])
+    //   local requestedQuantity = ARGV[2]
+    //   local newScore = tonumber(ARGV[4])
+
+    //   -- Price check: Only match if the price conditions are met
+    //   if (ARGV[5] == "BUY" and orderBookPrice > requestedPrice) or (ARGV[5] == "SELL" and orderBookPrice < requestedPrice) then
+    //       local newOrder = {
+    //           uid = ARGV[6],
+    //           ts = ARGV[7],
+    //           hash = ARGV[8],
+    //           price = tonumber(ARGV[3]),
+    //           quantity = ARGV[2]
+    //          }
+    //       redis.call('ZADD', KEYS[2], ARGV[4], cjson.encode(newOrder))
+    //       return { 'ADDED', newOrder, 1 }
+    //   end
+
+    //   -- Match or partially match the order
+    //   if tonumber(orderBookQuantity) <= tonumber(requestedQuantity) then
+    //       redis.call('ZREM', KEYS[1], orderRange[1])
+    //       return { orderRange[1], 'MATCHED', orderBookQuantity }
+    //   else
+    //       orderBookData.quantity = tonumber(orderBookQuantity) - tonumber(requestedQuantity)
+    //       redis.call('ZREM', KEYS[1], orderRange[1])
+    //       redis.call('ZADD', KEYS[1], newScore, cjson.encode(orderBookData))
+    //       return { orderRange[1], 'PARTIAL', requestedQuantity }
+    //   end
+    // `;
 
 

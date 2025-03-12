@@ -1,0 +1,430 @@
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is a log message
+info: This is another log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: [object Object]
+info: [object Object]
+info: [object Object]
+info: [object Object]
+info: [object Object]
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: This is a log message
+info: This is another log message
+info: {"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"5445c025-652a-4410-824e-0","status":"OPEN","script":1}
+info: {"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"91d2a6be-137d-4b16-a940-3","price":903,"execution_price":903,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"type":2,"uid":"15","side":0,"symbol":"BTC/INR","price":904,"execution_price":903,"quantity":1,"execute_qty":"1","hash":"658accee-bc95-498a-94a5-1","status":"FILLED"}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"0be3a3ea-c012-4115-845b-2","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":1,"hash":"abe891cb-d0fb-40ec-b2f4-4","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":1,"hash":"8606a341-196a-4eef-b09f-4","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":1,"hash":"a4580827-d0d5-424f-9780-f","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":2,"hash":"bddc60ce-f4ac-45d9-8bbe-f","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":2,"hash":"e4424830-08c3-47bf-8f9a-b","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":2,"hash":"0ccfd8af-f476-4cb5-b3a1-7","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":2,"hash":"2f0fe061-1791-4913-b901-1","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":2,"hash":"e8e0e8b3-0367-4a51-a2ac-3","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"a8beb2ac-18c8-444f-9270-5","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":1,"uid":"10","hash":"91d2a6be-137d-4b16-a940-3","price":903,"execution_price":903,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"5cc13838-3f66-45f8-b8cd-d","price":903,"execution_price":903,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"8367e898-950e-4c27-adc9-d","price":903,"execution_price":903,"execute_qty":"2","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"eca7903b-df9c-4b29-a2c6-6","price":904,"execution_price":904,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"207248af-3561-4c65-b486-4","price":905,"execution_price":903,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"d814d787-70db-4a78-894c-1","price":904,"execution_price":903,"quantity":2,"execute_qty":1,"status":"PARTIALLY_FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"03211ba4-a1bf-4212-b4e9-6","price":905,"execution_price":904,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"fcadde25-dfa4-4c19-97d9-5","price":903,"execution_price":903,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":4,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"4121b85d-0ddf-46f5-abca-9","price":904,"execution_price":904,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":0,"symbol":"BTC/INR","price":905,"execution_price":904,"quantity":1,"execute_qty":"1","hash":"03901214-ea9c-42e2-b314-7","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":1,"uid":"10","hash":"4121b85d-0ddf-46f5-abca-9","price":904,"execution_price":904,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"b75eff4c-72b6-408e-95e1-5","price":905,"execution_price":904,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"8606a341-196a-4eef-b09f-4","price":903,"execution_price":903,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"0be3a3ea-c012-4115-845b-2","price":902,"execution_price":902,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"f81bde7f-543e-44f1-b621-1","price":901,"execution_price":903,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"4d45644b-cb48-4429-ab60-1","price":900,"execution_price":902,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"a81f334e-93f6-4519-9d3a-e","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"5f30230f-1c1f-47e3-9cb9-9","price":901,"execution_price":901,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"10","side":1,"symbol":"BTC/INR","price":900,"execution_price":901,"quantity":1,"execute_qty":"1","hash":"c0332dbc-de76-4928-b2af-7","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"55bb75fc-bec0-49ac-816d-7","price":900,"execution_price":901,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"6a911fce-6646-487c-8d7f-7","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"79acc0af-cf7c-480f-8d64-d","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"207248af-3561-4c65-b486-4","price":905,"execution_price":904,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"d814d787-70db-4a78-894c-1","price":904,"execution_price":904,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":1,"hash":"7c56d4f7-d217-48ac-9258-0","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":1,"hash":"2c49eac0-0ddb-4f0e-bba0-5","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":1,"hash":"13bb3cb2-2e49-47bf-8984-1","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":1,"hash":"0b25d7e5-b24b-46a1-b620-6","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":1,"hash":"0a0e509d-4acf-4425-b477-5","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"6e152708-8ebb-4118-8f72-6","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"163d7aec-b597-4cd4-9794-9","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":2,"hash":"fc4b32f1-e6fc-4153-ab32-f","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"3fa51434-5862-4a88-ad5d-a","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":2,"hash":"8117530b-7806-44e1-b36e-1","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"7ce64141-1a45-4647-98d4-3","status":"OPEN","script":1}
+info: {"msg":4,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"60923cd4-242c-49d5-b1f6-6","price":904,"execution_price":904,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":0,"symbol":"BTC/INR","price":905,"execution_price":904,"quantity":1,"execute_qty":"1","hash":"a87ea701-bef6-49b1-960b-2","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":1,"uid":"10","hash":"60923cd4-242c-49d5-b1f6-6","price":904,"execution_price":904,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"2914da26-fb90-4688-ac9e-4","price":905,"execution_price":904,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"5445c025-652a-4410-824e-0","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"f664abd8-9c79-4a82-ab87-0","price":904,"execution_price":904,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"e4424830-08c3-47bf-8f9a-b","price":904,"execution_price":904,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"cae7e5fe-a19f-4ba5-a7ac-2","price":904,"execution_price":904,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":1,"uid":"15","hash":"5f30230f-1c1f-47e3-9cb9-9","price":901,"execution_price":901,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"0b25d7e5-b24b-46a1-b620-6","price":903,"execution_price":903,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"6e152708-8ebb-4118-8f72-6","price":902,"execution_price":902,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"909d3bd0-14d3-4643-a4cd-5","price":900,"execution_price":901,"quantity":2,"execute_qty":1,"status":"PARTIALLY_FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"d90a35ec-67e5-4ee0-85d3-c","price":901,"execution_price":902,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"216298d8-a243-4742-a258-2","price":900,"execution_price":903,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"66287a06-63fc-4577-903e-3","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"3fefd969-295a-4ce2-acca-0","price":900,"execution_price":901,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"7c56d4f7-d217-48ac-9258-0","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"3a8cfafa-9d13-436f-8dfb-3","price":901,"execution_price":901,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":901,"quantity":2,"hash":"3a8cfafa-9d13-436f-8dfb-3","status":"OPEN","script":1}
+info: {"msg":4,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"0ccfd8af-f476-4cb5-b3a1-7","price":904,"execution_price":904,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":0,"symbol":"BTC/INR","price":904,"execution_price":904,"quantity":1,"execute_qty":"1","hash":"f664abd8-9c79-4a82-ab87-0","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"13bb3cb2-2e49-47bf-8984-1","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"909d3bd0-14d3-4643-a4cd-5","price":900,"execution_price":901,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":2,"hash":"9ed3e479-f7ce-44de-acf5-b","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":2,"hash":"42e7773b-8e6f-47df-9eef-a","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":2,"hash":"f42940a9-59dd-4559-a326-7","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"4362b6c5-7bfc-409c-b007-7","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":2,"hash":"a3142ae4-9efe-4ca1-99b4-e","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":2,"hash":"b7387eb2-76e9-4163-9fa0-7","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":1,"hash":"894171f5-c6ee-4f24-b25a-7","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"54c33feb-ec0e-44c6-80d9-b","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"dcde1b92-4432-409e-ae1b-f","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"aa2c0cb7-fd0d-4120-adff-c","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"11252714-70fa-43de-863d-2","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"4166f512-217e-4e1b-a6ab-6","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"3a9d2018-3097-47ea-b2a2-a","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"2209614e-ac96-4286-aed1-0","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":1,"uid":"10","hash":"0ccfd8af-f476-4cb5-b3a1-7","price":904,"execution_price":904,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"3a8cfafa-9d13-436f-8dfb-3","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"e8e0e8b3-0367-4a51-a2ac-3","price":904,"execution_price":904,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"56a79fad-f36a-47dd-a671-c","price":901,"execution_price":901,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"836f7699-56b5-4c55-87bc-4","price":904,"execution_price":904,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"d7b81f3b-29e1-4b09-b065-b","price":905,"execution_price":904,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"894171f5-c6ee-4f24-b25a-7","price":903,"execution_price":903,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"a6bbae76-1bb7-4a2c-8d6a-2","price":903,"execution_price":903,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"4362b6c5-7bfc-409c-b007-7","price":902,"execution_price":902,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"6ea81cab-f6c2-43e4-9689-a","price":901,"execution_price":902,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"f42940a9-59dd-4559-a326-7","price":901,"execution_price":901,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"df39155c-531c-4235-a667-b","price":900,"execution_price":901,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":2,"hash":"328da0c5-1e6d-4ad2-b319-e","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":2,"hash":"dd76db1f-28aa-4914-a325-1","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":1,"hash":"a693ae43-9947-495e-824b-d","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"0974a362-2081-423e-8a43-5","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":2,"hash":"14f6a279-90bd-4ff4-a534-9","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":1,"hash":"3488764d-eeec-42c3-a66b-2","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":903,"quantity":2,"hash":"38f5dcf5-64e0-4e43-9736-3","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"0e8a897b-6977-4c66-85d3-2","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"9e00d09f-0387-4cbf-8e75-8","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"a8beb2ac-18c8-444f-9270-5","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"c5adedfe-f69e-4889-8a67-d","price":905,"execution_price":904,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":4,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"fc4b32f1-e6fc-4153-ab32-f","price":904,"execution_price":904,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":0,"symbol":"BTC/INR","price":905,"execution_price":904,"quantity":1,"execute_qty":"1","hash":"7258c7f6-500f-4929-b20f-c","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":1,"uid":"10","hash":"fc4b32f1-e6fc-4153-ab32-f","price":904,"execution_price":904,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"9a751f09-34c1-4f73-bdb8-6","price":904,"execution_price":904,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"3fa51434-5862-4a88-ad5d-a","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"ddbed940-cd18-41e7-879e-3","price":905,"execution_price":904,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"dd76db1f-28aa-4914-a325-1","price":903,"execution_price":903,"execute_qty":"2","status":"FILLED"}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"0974a362-2081-423e-8a43-5","price":902,"execution_price":902,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":1,"uid":"15","hash":"0974a362-2081-423e-8a43-5","price":902,"execution_price":902,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"b7387eb2-76e9-4163-9fa0-7","price":901,"execution_price":901,"execute_qty":"2","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"a693ae43-9947-495e-824b-d","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"3488764d-eeec-42c3-a66b-2","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"a0a7d82e-3e17-455a-8b8c-3","price":902,"execution_price":903,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":5,"type":2,"uid":"10","side":1,"symbol":"BTC/INR","price":900,"execution_price":902,"quantity":1,"execute_qty":"1","hash":"6d79475a-5bd5-44ad-ad76-1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"6889b9e2-90a9-4056-95b5-8","price":900,"execution_price":902,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"30efe1c3-4c3c-45e4-85f1-e","price":901,"execution_price":901,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"8acf919b-3275-4863-8e4d-8","price":900,"execution_price":901,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"80c9bc26-d744-47d6-88dd-0","price":901,"execution_price":901,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"00ee4727-53fd-4dca-8d91-3","price":900,"execution_price":900,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"9b5b1f48-ed6a-4a2f-95c4-9","price":900,"execution_price":900,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":1190,"quantity":12,"hash":"5c8194f7-bbd5-4090-aab9-8","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"9e00d09f-0387-4cbf-8e75-8","price":902,"execution_price":902,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"a344c3e5-0af9-41ee-9d84-9","price":1190,"execution_price":902,"quantity":3,"execute_qty":"2","status":"PARTIALLY_FILLED"}
+info: {"msg":4,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"38f5dcf5-64e0-4e43-9736-3","price":903,"execution_price":903,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":0,"symbol":"BTC/INR","price":1190,"execution_price":903,"quantity":1,"execute_qty":"1","hash":"a344c3e5-0af9-41ee-9d84-9","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":1,"uid":"10","hash":"38f5dcf5-64e0-4e43-9736-3","price":903,"execution_price":903,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"2af1507f-0c80-42c7-8dfe-4","price":1190,"execution_price":903,"quantity":3,"execute_qty":1,"status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"8117530b-7806-44e1-b36e-1","price":904,"execution_price":904,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"2af1507f-0c80-42c7-8dfe-4","price":1190,"execution_price":904,"quantity":2,"execute_qty":"2","status":"PARTIALLY_FILLED"}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":2,"hash":"c98319f0-4b61-4f25-9783-f","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":1,"hash":"a8220da7-4ff5-49ab-be7a-9","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":1,"hash":"87fe1e21-843f-46bc-ba36-e","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":1,"hash":"1a0d327c-51f6-4fcf-9629-8","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":1,"hash":"ebd615e3-6d91-44a7-af2c-4","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"30c84ddd-fe8e-4d9b-b48d-8","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":2,"hash":"9cdfe653-30b5-4593-9016-6","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":2,"hash":"22cbdcf8-39bf-4eaf-969f-6","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"1f49c37c-7c87-4623-81b8-a","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":2,"hash":"9e9d9d37-f7df-435e-89e7-b","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":2,"hash":"38233eb9-63ef-4dab-9b2c-d","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"778092ac-578e-4c03-99e0-6","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"a2032bfc-c736-44ff-9873-1","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"7ce64141-1a45-4647-98d4-3","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"aa2c0cb7-fd0d-4120-adff-c","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"d4678850-c08a-4bd4-89a4-9","price":904,"execution_price":904,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"26223438-f73b-4c50-a80f-0","price":904,"execution_price":904,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"87fe1e21-843f-46bc-ba36-e","price":903,"execution_price":903,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"9cdfe653-30b5-4593-9016-6","price":903,"execution_price":903,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"bcab8a06-23cd-49d4-a58b-b","price":901,"execution_price":903,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"0da2a9e9-19d2-4fca-b932-4","price":903,"execution_price":903,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"30c84ddd-fe8e-4d9b-b48d-8","price":902,"execution_price":902,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":1,"uid":"15","hash":"30c84ddd-fe8e-4d9b-b48d-8","price":902,"execution_price":902,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"a8220da7-4ff5-49ab-be7a-9","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":5,"type":2,"uid":"10","side":1,"symbol":"BTC/INR","price":901,"execution_price":902,"quantity":1,"execute_qty":"1","hash":"3b27c617-e4d9-4ab5-8d49-4","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"a83c7639-bcb3-4bee-a2cd-8","price":900,"execution_price":901,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"2187106c-9835-41b5-bb75-0","price":900,"execution_price":902,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":4,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"a2032bfc-c736-44ff-9873-1","price":902,"execution_price":902,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":0,"symbol":"BTC/INR","price":904,"execution_price":902,"quantity":1,"execute_qty":"1","hash":"26223438-f73b-4c50-a80f-0","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"f69a95d3-7af4-4c6f-8846-f","price":900,"execution_price":900,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"a83c7639-bcb3-4bee-a2cd-8","price":900,"execution_price":900,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":1190,"quantity":12,"hash":"d32da545-0dfa-4c1d-8b2b-a","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":1,"uid":"10","hash":"a2032bfc-c736-44ff-9873-1","price":902,"execution_price":902,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"fffa812f-fafd-460d-a35e-7","price":1190,"execution_price":902,"quantity":3,"execute_qty":1,"status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"4166f512-217e-4e1b-a6ab-6","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"fffa812f-fafd-460d-a35e-7","price":1190,"execution_price":904,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"2209614e-ac96-4286-aed1-0","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"fffa812f-fafd-460d-a35e-7","price":1190,"execution_price":904,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"0c832754-d6c1-4612-8093-e","price":905,"execution_price":905,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"a252bc66-afa6-4401-9a2b-1","price":1190,"execution_price":905,"quantity":6,"execute_qty":"2","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"8e4afc6e-0a96-40ce-ac81-f","price":905,"execution_price":905,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"a252bc66-afa6-4401-9a2b-1","price":1190,"execution_price":905,"quantity":4,"execute_qty":"2","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"2ba696f0-c9c7-4692-a945-8","price":905,"execution_price":905,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"a252bc66-afa6-4401-9a2b-1","price":1190,"execution_price":905,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"ca2d4886-48e7-4a09-8bd8-5","price":905,"execution_price":905,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"a252bc66-afa6-4401-9a2b-1","price":1190,"execution_price":905,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"b19a4691-e7fb-443f-9204-9","price":905,"execution_price":905,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"40e062b8-3d39-468d-810a-b","price":1190,"execution_price":905,"quantity":5,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"f7b986cf-b19f-4a59-a116-d","price":905,"execution_price":905,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"40e062b8-3d39-468d-810a-b","price":1190,"execution_price":905,"quantity":4,"execute_qty":"2","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"bddc60ce-f4ac-45d9-8bbe-f","price":905,"execution_price":905,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"40e062b8-3d39-468d-810a-b","price":1190,"execution_price":905,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"2f0fe061-1791-4913-b901-1","price":905,"execution_price":905,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"14d2c898-4fad-4521-b0de-f","price":1190,"execution_price":905,"quantity":5,"execute_qty":"2","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"163d7aec-b597-4cd4-9794-9","price":905,"execution_price":905,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"14d2c898-4fad-4521-b0de-f","price":1190,"execution_price":905,"quantity":3,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"54c33feb-ec0e-44c6-80d9-b","price":905,"execution_price":905,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"14d2c898-4fad-4521-b0de-f","price":1190,"execution_price":905,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"dcde1b92-4432-409e-ae1b-f","price":905,"execution_price":905,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"14d2c898-4fad-4521-b0de-f","price":1190,"execution_price":905,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":904,"quantity":2,"hash":"a64717c2-35d5-4559-9756-8","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":2,"hash":"783d0a7e-451e-4cf6-8dd3-c","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"9425826e-6607-4754-a873-3","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":1,"hash":"5f2b5353-2943-4dcf-b841-4","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"b91efc80-b5d7-47ee-95d4-5","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":2,"hash":"c416e09e-a146-4ac6-8a46-1","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"186211c1-8067-4611-be20-7","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"891782df-1e86-4118-ab58-2","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":905,"quantity":2,"hash":"e22f975b-0d0b-4edd-9ed1-2","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":2,"hash":"0f2ff508-4b4f-46e7-8e25-2","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":2,"hash":"a420b80f-bb69-4fdb-a1ff-a","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":903,"quantity":2,"hash":"90954240-4e00-449f-bbf0-9","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"9425826e-6607-4754-a873-3","price":905,"execution_price":905,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"186211c1-8067-4611-be20-7","price":905,"execution_price":905,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"e22f975b-0d0b-4edd-9ed1-2","price":905,"execution_price":905,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"1e4d4ff4-54e7-4d09-9b0e-c","price":902,"execution_price":905,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"0fcc460d-c5d4-46fe-be74-c","price":902,"execution_price":905,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"24adc239-547f-45c9-842f-8","price":902,"execution_price":905,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"a64717c2-35d5-4559-9756-8","price":904,"execution_price":904,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"10","side":1,"symbol":"BTC/INR","price":901,"execution_price":904,"quantity":1,"execute_qty":"1","hash":"2886baf9-7ce8-401c-8471-0","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":1,"uid":"15","hash":"a64717c2-35d5-4559-9756-8","price":904,"execution_price":904,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"5eff04e3-c413-4c1d-8f36-d","price":903,"execution_price":904,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"c416e09e-a146-4ac6-8a46-1","price":903,"execution_price":903,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":1,"uid":"15","hash":"c416e09e-a146-4ac6-8a46-1","price":903,"execution_price":903,"execute_qty":1,"status":"FILLED"}
+info: {"msg":5,"type":2,"uid":"10","side":1,"symbol":"BTC/INR","price":903,"execution_price":903,"quantity":1,"execute_qty":"1","hash":"737f125c-8586-498b-a69a-f","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"a1ddf749-fa06-4817-b52a-e","price":900,"execution_price":903,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"b91efc80-b5d7-47ee-95d4-5","price":902,"execution_price":902,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"10","side":1,"symbol":"BTC/INR","price":902,"execution_price":902,"quantity":1,"execute_qty":"1","hash":"1480da94-4c34-481e-9b98-4","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":1,"uid":"15","hash":"b91efc80-b5d7-47ee-95d4-5","price":902,"execution_price":902,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"1e4d4ff4-54e7-4d09-9b0e-c","price":902,"execution_price":902,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"891782df-1e86-4118-ab58-2","price":902,"execution_price":902,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"10","side":1,"symbol":"BTC/INR","price":902,"execution_price":902,"quantity":1,"execute_qty":"1","hash":"24adc239-547f-45c9-842f-8","status":"FILLED"}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"98b39486-d1f0-400c-a921-e","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":1,"hash":"b03bd88b-0ed1-443c-920e-6","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":1,"hash":"0702bebd-2ac5-41b4-851b-1","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"d70cd1b8-f62a-426e-8a48-1","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"a64288fb-cdbc-44c9-b486-5","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"f5172f18-eacb-427f-b242-2","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":1,"hash":"16959c29-0e5d-4591-a354-1","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":2,"hash":"e1c531df-bcfb-47f5-91f7-0","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":2,"hash":"b4d2d128-4745-4704-8178-3","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"2c50746d-7705-464f-b8fe-3","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"07efaa0d-cb00-41d4-a1d4-e","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"214a49c2-1ff6-43df-8860-6","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"9c1752b0-3b64-4fc0-8407-2","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"90954240-4e00-449f-bbf0-9","price":903,"execution_price":903,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"68c3a39b-8ad5-494b-97e8-3","price":903,"execution_price":903,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"a420b80f-bb69-4fdb-a1ff-a","price":905,"execution_price":905,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"e45c39ed-9dfc-43ae-9fd6-f","price":905,"execution_price":905,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":1,"uid":"15","hash":"891782df-1e86-4118-ab58-2","price":902,"execution_price":902,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"98b39486-d1f0-400c-a921-e","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"d70cd1b8-f62a-426e-8a48-1","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"a64288fb-cdbc-44c9-b486-5","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"53d2c406-4829-4ea0-902b-5","price":901,"execution_price":902,"quantity":2,"execute_qty":1,"status":"PARTIALLY_FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"0b9f904d-8722-44b5-8d4c-7","price":903,"execution_price":904,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"b57a474f-f8bc-4f0e-b34c-b","price":901,"execution_price":904,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"f36408a1-0f5c-43f4-adda-8","price":901,"execution_price":904,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"f5172f18-eacb-427f-b242-2","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"e88ccaef-4a5e-461c-b499-4","price":903,"execution_price":904,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":903,"quantity":2,"hash":"e88ccaef-4a5e-461c-b499-4","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"16959c29-0e5d-4591-a354-1","price":903,"execution_price":903,"execute_qty":"1","status":"FILLED"}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"e1c531df-bcfb-47f5-91f7-0","price":903,"execution_price":903,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"10","side":1,"symbol":"BTC/INR","price":903,"execution_price":903,"quantity":1,"execute_qty":"1","hash":"0b9f904d-8722-44b5-8d4c-7","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"53d2c406-4829-4ea0-902b-5","price":901,"execution_price":903,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":1,"uid":"15","hash":"e1c531df-bcfb-47f5-91f7-0","price":903,"execution_price":903,"execute_qty":1,"status":"FILLED"}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"783d0a7e-451e-4cf6-8dd3-c","price":901,"execution_price":901,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"10","side":1,"symbol":"BTC/INR","price":901,"execution_price":901,"quantity":1,"execute_qty":"1","hash":"f36408a1-0f5c-43f4-adda-8","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"b57a474f-f8bc-4f0e-b34c-b","price":901,"execution_price":903,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":2,"hash":"123cc43b-6805-4576-8682-7","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":2,"hash":"969ea478-00f6-4d62-bd46-9","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":902,"quantity":1,"hash":"2611d612-5baa-4260-bda1-c","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":2,"hash":"0db13edd-3a85-4071-8cf9-a","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":901,"quantity":1,"hash":"b2428fbb-02a6-4430-ac95-a","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":1,"hash":"53b39021-a673-4d73-88f1-b","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":1,"hash":"45c87f58-6a87-4e9b-aa49-9","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":1,"hash":"d2f091ad-d89c-4245-be60-b","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":1,"hash":"042a0e79-22e8-413b-8c6b-2","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":2,"hash":"c5dff508-c135-4dc4-9d53-f","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"quantity":1,"hash":"ecf09107-4334-463e-a7c0-3","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":900,"quantity":1,"hash":"a3d6fb79-35ef-42c2-b761-1","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":902,"quantity":1,"hash":"3ce3328f-9838-4a27-8485-0","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"15","side":0,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"6ee29af6-c4d5-49f9-84f1-d","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"aa4eb23a-a1f3-4867-a637-a","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":2,"hash":"9603ff6f-0790-46ec-acc7-d","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"a359749e-7f10-4c40-94d6-3","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"20f5296c-9721-45a1-bf3e-8","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"350b7ab7-f3bb-4c38-8fa3-6","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":1,"hash":"a053a889-1d47-4be2-8e8e-9","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"e88ccaef-4a5e-461c-b499-4","price":903,"execution_price":903,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"9a8e198b-7567-4f7a-8db2-2","price":903,"execution_price":903,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":2,"hash":"2a20f55c-7bb0-4e91-a2b2-2","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"2c50746d-7705-464f-b8fe-3","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"d93e0fb7-c4c8-4474-a4eb-4","price":905,"execution_price":904,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":1,"hash":"42fdd066-c8e0-4400-bb58-3","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":905,"quantity":2,"hash":"66740799-b1e7-4e65-893a-3","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"214a49c2-1ff6-43df-8860-6","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":4,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"b4d2d128-4745-4704-8178-3","price":905,"execution_price":905,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":1,"uid":"10","hash":"b4d2d128-4745-4704-8178-3","price":905,"execution_price":905,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"1","uid":"10","hash":"07efaa0d-cb00-41d4-a1d4-e","price":905,"execution_price":905,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"f4b8b14c-0568-46b0-8557-8","price":904,"execution_price":904,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":0,"symbol":"BTC/INR","price":905,"execution_price":905,"quantity":1,"execute_qty":"1","hash":"b48ebee1-bb94-4919-aede-5","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"05fed346-783d-46e7-b7c9-d","price":905,"execution_price":905,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"23913483-dd66-4afa-a331-1","price":905,"execution_price":905,"quantity":2,"execute_qty":1,"status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":1,"uid":"15","hash":"783d0a7e-451e-4cf6-8dd3-c","price":901,"execution_price":901,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"351721d2-8441-4eb0-9ff4-1","price":901,"execution_price":901,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"6ee29af6-c4d5-49f9-84f1-d","price":904,"execution_price":904,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"add6a122-0461-444d-b965-f","price":904,"execution_price":904,"quantity":2,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"969ea478-00f6-4d62-bd46-9","price":903,"execution_price":903,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"81dce168-8f65-4237-9f69-9","price":902,"execution_price":903,"quantity":2,"execute_qty":"2","status":"FILLED"}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"0db13edd-3a85-4071-8cf9-a","price":903,"execution_price":903,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"10","side":1,"symbol":"BTC/INR","price":900,"execution_price":903,"quantity":1,"execute_qty":"1","hash":"4668c7c3-5623-4657-8099-3","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":1,"uid":"15","hash":"0db13edd-3a85-4071-8cf9-a","price":903,"execution_price":903,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"1316aa6f-66a4-4845-8dec-4","price":902,"execution_price":903,"quantity":2,"execute_qty":1,"status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"45c87f58-6a87-4e9b-aa49-9","price":903,"execution_price":903,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"f420ba65-6b95-40cd-9a83-3","price":903,"execution_price":903,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"c5dff508-c135-4dc4-9d53-f","price":903,"execution_price":903,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"10","side":1,"symbol":"BTC/INR","price":902,"execution_price":903,"quantity":1,"execute_qty":"1","hash":"722e0d04-a447-4dbf-95b4-e","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":1,"uid":"15","hash":"c5dff508-c135-4dc4-9d53-f","price":903,"execution_price":903,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"f07f98fb-51e2-4908-950c-0","price":902,"execution_price":903,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"ecf09107-4334-463e-a7c0-3","price":903,"execution_price":903,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"b87984f6-6619-4d3f-b7a3-5","price":903,"execution_price":903,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"2611d612-5baa-4260-bda1-c","price":902,"execution_price":902,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"1f22f6e5-d776-49ac-afd3-4","price":900,"execution_price":902,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"3ce3328f-9838-4a27-8485-0","price":902,"execution_price":902,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"8fd6965c-c858-4001-b199-c","price":900,"execution_price":902,"quantity":1,"execute_qty":"1","status":"FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":904,"quantity":2,"hash":"add6a122-0461-444d-b965-f","status":"OPEN","script":1}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":902,"quantity":2,"hash":"1316aa6f-66a4-4845-8dec-4","status":"OPEN","script":1}
+info: {"msg":4,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"aa4eb23a-a1f3-4867-a637-a","price":902,"execution_price":902,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":0,"symbol":"BTC/INR","price":903,"execution_price":902,"quantity":1,"execute_qty":"1","hash":"9a8e198b-7567-4f7a-8db2-2","status":"FILLED"}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":1,"uid":"10","hash":"aa4eb23a-a1f3-4867-a637-a","price":902,"execution_price":902,"execute_qty":1,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"15","hash":"d93e0fb7-c4c8-4474-a4eb-4","price":905,"execution_price":902,"quantity":1,"execute_qty":1,"status":"FILLED"}
+info: {"msg":4,"type":2,"side":1,"symbol":"BTC/INR","quantity":"2","uid":"10","hash":"20f5296c-9721-45a1-bf3e-8","price":902,"execution_price":902,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":0,"symbol":"BTC/INR","price":905,"execution_price":902,"quantity":1,"execute_qty":"1","hash":"23913483-dd66-4afa-a331-1","status":"FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":1190,"quantity":50,"hash":"deaa0547-ed39-4964-804f-0","status":"OPEN","script":1}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"5f2b5353-2943-4dcf-b841-4","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"50b8c0e2-2cfb-49af-a84e-3","price":900,"execution_price":901,"quantity":50,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"0f2ff508-4b4f-46e7-8e25-2","price":901,"execution_price":901,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"50b8c0e2-2cfb-49af-a84e-3","price":900,"execution_price":901,"quantity":49,"execute_qty":"2","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"b03bd88b-0ed1-443c-920e-6","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"50b8c0e2-2cfb-49af-a84e-3","price":900,"execution_price":901,"quantity":47,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"0702bebd-2ac5-41b4-851b-1","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"50b8c0e2-2cfb-49af-a84e-3","price":900,"execution_price":901,"quantity":46,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"2","uid":"15","hash":"123cc43b-6805-4576-8682-7","price":901,"execution_price":901,"execute_qty":"2","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"50b8c0e2-2cfb-49af-a84e-3","price":900,"execution_price":901,"quantity":45,"execute_qty":"2","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"b2428fbb-02a6-4430-ac95-a","price":901,"execution_price":901,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"50b8c0e2-2cfb-49af-a84e-3","price":900,"execution_price":901,"quantity":43,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"53b39021-a673-4d73-88f1-b","price":900,"execution_price":900,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"50b8c0e2-2cfb-49af-a84e-3","price":900,"execution_price":900,"quantity":42,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"d2f091ad-d89c-4245-be60-b","price":900,"execution_price":900,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"50b8c0e2-2cfb-49af-a84e-3","price":900,"execution_price":900,"quantity":41,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"042a0e79-22e8-413b-8c6b-2","price":900,"execution_price":900,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"50b8c0e2-2cfb-49af-a84e-3","price":900,"execution_price":900,"quantity":40,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"1","uid":"15","hash":"a3d6fb79-35ef-42c2-b761-1","price":900,"execution_price":900,"execute_qty":"1","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"10","hash":"50b8c0e2-2cfb-49af-a84e-3","price":900,"execution_price":900,"quantity":39,"execute_qty":"1","status":"PARTIALLY_FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":1,"symbol":"BTC/INR","price":900,"quantity":50,"hash":"50b8c0e2-2cfb-49af-a84e-3","status":"OPEN","script":0}
+info: {"msg":1,"type":1,"uid":"10","side":0,"symbol":"BTC/INR","price":900,"quantity":5,"hash":"2771c84e-45cf-4e05-982d-9","status":"OPEN","script":0}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":"5","uid":"10","hash":"2771c84e-45cf-4e05-982d-9","price":900,"execution_price":900,"execute_qty":"5","status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"15","hash":"0a084240-9cb1-4cfb-aa91-c","price":900,"execution_price":900,"quantity":5,"execute_qty":"5","status":"FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":0,"symbol":"BTC/INR","price":900,"quantity":15,"hash":"5ee13c17-529d-4f4b-b968-4","status":"OPEN","script":0}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"15","uid":"10","hash":"5ee13c17-529d-4f4b-b968-4","price":900,"execution_price":900,"execute_qty":"10","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":1,"symbol":"BTC/INR","price":900,"execution_price":900,"quantity":10,"execute_qty":"10","hash":"d4d29d6b-c7fb-44a3-bb2b-8","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":5,"uid":"10","hash":"5ee13c17-529d-4f4b-b968-4","price":900,"execution_price":900,"execute_qty":5,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"15","hash":"e1e18d1f-865d-4b80-9fca-1","price":890,"execution_price":900,"quantity":10,"execute_qty":5,"status":"PARTIALLY_FILLED"}
+info: {"msg":1,"type":1,"uid":"15","side":1,"symbol":"BTC/INR","price":890,"quantity":10,"hash":"e1e18d1f-865d-4b80-9fca-1","status":"OPEN","script":0}
+info: {"msg":2,"type":2,"side":1,"symbol":"BTC/INR","quantity":"5","uid":"15","hash":"e1e18d1f-865d-4b80-9fca-1","price":890,"execution_price":890,"execute_qty":"5","status":"FILLED"}
+info: {"msg":3,"type":2,"side":0,"symbol":"BTC/INR","uid":"10","hash":"2c9925dc-a75e-46c7-9fd9-6","price":910,"execution_price":890,"quantity":15,"execute_qty":"5","status":"PARTIALLY_FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":0,"symbol":"BTC/INR","price":910,"quantity":15,"hash":"2c9925dc-a75e-46c7-9fd9-6","status":"OPEN","script":0}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"10","uid":"10","hash":"2c9925dc-a75e-46c7-9fd9-6","price":910,"execution_price":910,"execute_qty":"3","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":1,"symbol":"BTC/INR","price":890,"execution_price":910,"quantity":3,"execute_qty":"3","hash":"4da168e9-8681-496c-bd25-e","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":7,"uid":"10","hash":"2c9925dc-a75e-46c7-9fd9-6","price":910,"execution_price":910,"execute_qty":7,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"15","hash":"dfbb0d1d-3fcc-47bd-8f58-9","price":890,"execution_price":910,"quantity":7,"execute_qty":7,"status":"FILLED"}
+info: {"msg":1,"type":1,"uid":"10","side":0,"symbol":"BTC/INR","price":910,"quantity":15,"hash":"a1dd87af-1367-4c92-aac3-e","status":"OPEN","script":0}
+info: {"msg":4,"type":2,"side":0,"symbol":"BTC/INR","quantity":"15","uid":"10","hash":"a1dd87af-1367-4c92-aac3-e","price":910,"execution_price":910,"execute_qty":"5","status":"PARTIALLY_FILLED"}
+info: {"msg":5,"type":2,"uid":"15","side":1,"symbol":"BTC/INR","price":890,"execution_price":910,"quantity":5,"execute_qty":"5","hash":"6ccd6756-7287-4dd0-b0d2-7","status":"FILLED"}
+info: {"msg":2,"type":2,"side":0,"symbol":"BTC/INR","quantity":10,"uid":"10","hash":"a1dd87af-1367-4c92-aac3-e","price":910,"execution_price":910,"execute_qty":10,"status":"FILLED"}
+info: {"msg":3,"type":2,"side":1,"symbol":"BTC/INR","uid":"15","hash":"dcc356b6-5c66-40f8-bfc6-7","price":890,"execution_price":910,"quantity":10,"execute_qty":10,"status":"FILLED"}

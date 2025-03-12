@@ -23,29 +23,36 @@ wsClient.on('open', () => {
 app.post('/place-order', async (req, res) => {
   const conn = await connection.getConnection();
   try{
-  await conn.beginTransaction();
-  const { uid, side, symbol, price, quantity,order_type } = req.body;
+  const { uid, side, pair_id, price, quantity,order_type } = req.body;
  
-  if(!uid && !side && !symbol && !price && !quantity && !order_type) {
+  if(!uid && !side && !pair_id && !price && !quantity && !order_type) {
     return res.status(400).send({ message: 'send all request data.' });
   }
   
-  
-  const [base_asset,quote_asset] = symbol.split('/')
+  if(order_type !== "limit"){
+    return res.status(400).send({ message: 'Invalid order type.' });
+  }
 
-  const [asset_data] = await conn.execute('select id ,status,trade_status from currencies where symbol IN(?,?)',[base_asset,quote_asset])
+  if(side !== 0 && side !== 1){
+    return res.status(400).send({ message: 'Invalid side.' });
+  }
+  if(Number(price) <= 0 || Number(quantity) <= 0){
+    return res.status(400).send({ message: 'Invalid price or quantity.' });
+  }
 
-  const base_asset_data = asset_data[0]
-  const quote_asset_data = asset_data[1]
+  const [pair_data] = await conn.execute('select base_asset_id,quote_asset_id,symbol,status,trade_status from currencies where id=?',[pair_id])
+  const pairData = pair_data[0]
+  const base_asset_id = pairData.base_asset_id
+  const quote_asset_id = pairData.quote_asset_id
 
-  if (base_asset_data == undefined || quote_asset_data == undefined) {
+  if (pairData == undefined) {
     return res.status(400).send({ message: 'Invalid symbol.' });  
   }
 
-  if(base_asset_data.status != "Active" || quote_asset_data.status != 'Active' && base_asset_data.trade_status != 1 || quote_asset_data.trade_status != 1){
+  if(pairData.status != "Active" ||  pairData.trade_status != 1){
     return res.status(400).send({ message: 'Currently trade is not active for this pair.' }); 
   }
-  const check_balance_asset = side === 0 ? quote_asset_data.id : base_asset_data.id
+  const check_balance_asset = side === 0 ? quote_asset_id : base_asset_id
   const order_amount = side === 0 ? parseFloat(price) * parseFloat(quantity) : quantity
   const order_amount_for_fee = parseFloat(price) * parseFloat(quantity);
 
@@ -60,13 +67,15 @@ app.post('/place-order', async (req, res) => {
 
   const order_amount_with_fee = side === 0 ? parseFloat(order_amount) + parseFloat(fee) : parseFloat(order_amount)
   const order_amount_estimate_fee = side === 0 ?  parseFloat(order_amount_for_fee) + parseFloat(fee) : (parseFloat(order_amount_for_fee) - parseFloat(fee)) - parseFloat(tds)
-
+  await conn.beginTransaction();
   const [user_balance] = await conn.query('select balance from balances where user_id = ? and coin_id = ? FOR UPDATE',[uid,check_balance_asset])
 
     if(user_balance.length == 0){
+      await conn.rollback();
       return res.status(400).send({ message: 'Insufficient balance.' });
     }
     if(Number(order_amount_with_fee) > Number(user_balance[0].balance)){
+      await conn.rollback();
       return res.status(400).send({ message: 'Insufficient balance.' }); 
     }
 
@@ -79,7 +88,7 @@ app.post('/place-order', async (req, res) => {
   const message = OrderMessage.create({
     "uid": uid,
     "side": side,
-    "symbol": symbol,  
+    "symbol": pairData.symbol,  
     "price": parseFloat(price),
     "quantity": parseFloat(quantity),
     "hash": hash
@@ -100,14 +109,24 @@ app.post('/place-order', async (req, res) => {
   const finalMessage = `0|${base64Message}`
 
   //insert into orderbook_open_orders
-  await conn.query('insert into orderbook_open_orders (order_id,quantity,execute_qty,user_id,coin_id,coin_base,type,price,amount,tds,fees,final_amount,order_type,status,date_time) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',  
-    [hash,quantity,0,uid,base_asset_data.id,quote_asset_data.id,side === 0 ? 'BUY' : 'SELL',price,parseFloat(price) * parseFloat(quantity),tds,fee,order_amount_estimate_fee,"LIMIT","PENDING",Date.now()]
+ const insert_order = await conn.query('insert into orderbook_open_orders (order_id,quantity,execute_qty,user_id,coin_id,coin_base,type,price,amount,tds,fees,final_amount,order_type,status,date_time) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',  
+    [hash,quantity,0,uid,base_asset_id,quote_asset_id,side === 0 ? 'BUY' : 'SELL',price,parseFloat(price) * parseFloat(quantity),tds,fee,order_amount_estimate_fee,"LIMIT","PENDING",Date.now()]
   )
 
+  if(insert_order.affectedRows == 0){
+    await conn.rollback();
+    return res.status(400).send({ message: 'Failed to create order.' });
+  }
 
-  await conn.query('insert into transactions (user_id,coin_id,amount,opening,closing,order_id,type,remarks,txn_id,date_time) values (?,?,?,?,?,?,?,?,?,?)',
-    [uid,side == 0 ? quote_asset_data.id : base_asset_data.id,order_amount_with_fee,user_balance[0].balance,user_balance[0].balance - order_amount_with_fee,hash,'Dr',side === 0 ? 'Buy' : 'Sale',hash,Date.now()]
+
+ const insert_transaction = await conn.query('insert into transactions (user_id,coin_id,amount,opening,closing,order_id,type,remarks,txn_id,date_time) values (?,?,?,?,?,?,?,?,?,?)',
+    [uid,side == 0 ? quote_asset_id : base_asset_id,order_amount_with_fee,user_balance[0].balance,user_balance[0].balance - order_amount_with_fee,hash,'Dr',side === 0 ? 'Buy' : 'Sale',hash,Date.now()]
   )
+
+  if(insert_transaction.affectedRows == 0){
+    await conn.rollback();
+    return res.status(400).send({ message: 'Failed to create order.' });
+  }
 
   //debit user balance 
   // const [result] = await conn.query('UPDATE balances SET balance = balance - ? WHERE user_id = ? AND coin_id = ?',[parseFloat(order_amount_with_fee),uid,check_balance_asset])
@@ -118,7 +137,7 @@ app.post('/place-order', async (req, res) => {
 
   if(result.affectedRows !== 0){
     wsClient.send(finalMessage);
-    await conn.query('INSERT INTO balances_inorder (user_id, coin_id, balance) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE balance = balance + VALUES(balance)',[uid,side == 0 ? quote_asset_data.id : base_asset_data.id,order_amount_with_fee])
+    await conn.query('INSERT INTO balances_inorder (user_id, coin_id, balance) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE balance = balance + VALUES(balance)',[uid,side == 0 ? quote_asset_id : base_asset_id,order_amount_with_fee])
     await conn.commit(); 
     return res.send({ message: 'Order placed successfully',data:{order_id:hash} });
   }
