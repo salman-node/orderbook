@@ -24,23 +24,22 @@ app.post('/place-order', async (req, res) => {
   const conn = await connection.getConnection();
   try{
   const { uid, side, pair_id, price, quantity,order_type } = req.body;
- 
-  if(!uid && !side && !pair_id && !price && !quantity && !order_type) {
-    return res.status(400).send({ message: 'send all request data.' });
-  }
-  
-  if(order_type !== "limit"){
-    return res.status(400).send({ message: 'Invalid order type.' });
-  }
 
-  if(side !== 0 && side !== 1){
-    return res.status(400).send({ message: 'Invalid side.' });
-  }
-  if(Number(price) <= 0 || Number(quantity) <= 0){
-    return res.status(400).send({ message: 'Invalid price or quantity.' });
-  }
+ if ([uid, side, pair_id, price, quantity, order_type].some(val => val === undefined || val === null)) {
+  return res.status(400).send({ message: 'send all request data.' });
+}
+if (
+  !Number.isInteger(uid) ||
+  ![0, 1].includes(side) ||
+  !Number.isInteger(pair_id) ||
+  !(typeof price === "number" && price > 0) ||
+  !(typeof quantity === "number" && quantity > 0) ||
+  order_type !== "limit"
+) {
+  return res.status(400).send({ message: "Invalid request data." });
+}
 
-  const [pair_data] = await conn.execute('select base_asset_id,quote_asset_id,symbol,status,trade_status from currencies where id=?',[pair_id])
+  const [pair_data] = await conn.execute('select base_asset_id,quote_asset_id,status,trade_status from crypto_pair where id=?',[pair_id])
   const pairData = pair_data[0]
   const base_asset_id = pairData.base_asset_id
   const quote_asset_id = pairData.quote_asset_id
@@ -48,11 +47,12 @@ app.post('/place-order', async (req, res) => {
   if (pairData == undefined) {
     return res.status(400).send({ message: 'Invalid symbol.' });  
   }
-
+ 
   if(pairData.status != "Active" ||  pairData.trade_status != 1){
     return res.status(400).send({ message: 'Currently trade is not active for this pair.' }); 
   }
   const check_balance_asset = side === 0 ? quote_asset_id : base_asset_id
+ 
   const order_amount = side === 0 ? parseFloat(price) * parseFloat(quantity) : quantity
   const order_amount_for_fee = parseFloat(price) * parseFloat(quantity);
 
@@ -86,9 +86,9 @@ app.post('/place-order', async (req, res) => {
   const hash = randomUUID().substring(0, 25);
 
   const message = OrderMessage.create({
-    "uid": uid,
+    "uid": uid.toString(),
     "side": side,
-    "symbol": pairData.symbol,  
+    "symbol": pair_id.toString(),  
     "price": parseFloat(price),
     "quantity": parseFloat(quantity),
     "hash": hash
@@ -109,8 +109,8 @@ app.post('/place-order', async (req, res) => {
   const finalMessage = `0|${base64Message}`
 
   //insert into orderbook_open_orders
- const insert_order = await conn.query('insert into orderbook_open_orders (order_id,quantity,execute_qty,user_id,coin_id,coin_base,type,price,amount,tds,fees,final_amount,order_type,status,date_time) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',  
-    [hash,quantity,0,uid,base_asset_id,quote_asset_id,side === 0 ? 'BUY' : 'SELL',price,parseFloat(price) * parseFloat(quantity),tds,fee,order_amount_estimate_fee,"LIMIT","PENDING",Date.now()]
+ const insert_order = await conn.query('insert into orderbook_open_orders (order_id,pair_id,quantity,execute_qty,user_id,coin_id,coin_base,type,price,amount,tds,fees,final_amount,order_type,status,date_time) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',  
+    [hash,pair_id,quantity,0,uid,base_asset_id,quote_asset_id,side === 0 ? 'BUY' : 'SELL',price,parseFloat(price) * parseFloat(quantity),tds,fee,order_amount_estimate_fee,"LIMIT","PENDING",Date.now()]
   )
 
   if(insert_order.affectedRows == 0){
@@ -152,6 +152,55 @@ app.post('/place-order', async (req, res) => {
   conn.release();
 }
 });
+
+
+
+app.post('/cancel-order', async (req, res) => {
+  const { uid, side, pair_id, orderId } = req.body;
+  if ([uid, side, pair_id, orderId].some(val => val === undefined || val === null)) {
+    return res.status(400).send({ message: 'send all request data.' });
+  }
+  if (
+    !Number.isInteger(uid) ||
+    ![0, 1].includes(side) ||
+    !Number.isInteger(pair_id) 
+  ) {
+    return res.status(400).send({ message: "Invalid request data." });
+  }
+  const proto = protobuf.loadSync('./orderBook.proto');  // Load your .proto file
+  // console.log(proto);
+  const OrderMessage = proto.lookupType('orderbook.CancelOrder');  // Lookup your message type
+  // console.log(OrderMessage);
+  const message = OrderMessage.create({
+    uid : uid,
+    orderId : orderId,
+    side : parseInt(side),
+    symbol : symbol,
+  });
+  console.log(message)
+  // Verify the message before encoding
+  const errMsg = OrderMessage.verify(message);
+  if (errMsg) {
+    console.error("Error:", errMsg);
+    return;
+  }
+
+  // Encode the message into a buffer
+  const buffer = OrderMessage.encode(message).finish();
+
+  // Convert the binary buffer to base64 string 
+  const base64Message = base64.fromByteArray(buffer);
+  const finalMessage = `3|${base64Message}`
+  console.log(finalMessage)
+  wsClient.send(finalMessage);
+  return res.send({ message: 'Order placed successfully' });
+});
+
+app.listen(9696, () => {
+  console.log('Server started on port 9696');
+});
+
+
 
 
 // app.post('/place-order', async (req, res) => {
@@ -278,47 +327,3 @@ app.post('/place-order', async (req, res) => {
 // }
 // });
 
-
-
-app.post('/cancel-order', async (req, res) => {
-  const { uid, side, symbol, orderId } = req.body;
-  console.log(uid, side, symbol,orderId)
-  if(!uid || !side || !symbol || !orderId) {
-    return res.status(400).send({ message: 'send all request data.' });
-  }
-  const proto = protobuf.loadSync('./orderBook.proto');  // Load your .proto file
-  // console.log(proto);
-  const OrderMessage = proto.lookupType('orderbook.CancelOrder');  // Lookup your message type
-  // console.log(OrderMessage);
-  const message = OrderMessage.create({
-    uid : uid,
-    orderId : orderId,
-    side : parseInt(side),
-    symbol : symbol,
-  });
-  console.log(message)
-  // Verify the message before encoding
-  const errMsg = OrderMessage.verify(message);
-  if (errMsg) {
-    console.error("Error:", errMsg);
-    return;
-  }
-
-  // Encode the message into a buffer
-  const buffer = OrderMessage.encode(message).finish();
-
-  // Convert the binary buffer to base64 string 
-  const base64Message = base64.fromByteArray(buffer);
-  const finalMessage = `3|${base64Message}`
-  console.log(finalMessage)
-  wsClient.send(finalMessage);
-  return res.send({ message: 'Order placed successfully' });
-});
-
-
-
-
-
-app.listen(9696, () => {
-  console.log('Server started on port 9696');
-});

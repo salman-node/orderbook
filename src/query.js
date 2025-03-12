@@ -41,7 +41,7 @@ SELECT
     c.pro_decimals AS quantity_decimal, 
     c.pro_price_decimals AS price_decimal, 
     c.popular, 
-    'ONE' AS status, 
+    c.status AS status, 
     NOW() AS created_at, 
     NOW() AS updated_at
 FROM currencies c
