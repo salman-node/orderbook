@@ -15,7 +15,7 @@ const kafka = new Kafka({
   }
 });
 
-const producer = kafka.producer()
+const producer = kafka.producer();
 
 const connectKafka = async () => {
   console.log('connecting to kafka')
