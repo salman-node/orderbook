@@ -2,9 +2,73 @@ import { Kafka } from "kafkajs";
 import { Create_Universal_Data , Update_Universal_Data , Get_All_Universal_Data , Get_Where_Universal_Data, raw_query} from './db_query.js';
 import { parse } from "path";
 import Big from 'big.js';
+import {WebSocketServer } from "ws";
+import { exec } from "child_process";
+import { type } from "os";
 // import { parse } from "protobufjs";
 // import { console } from "inspector";
 
+const wss = new WebSocketServer({ port: 8081 });
+const clientSubscriptions = new Map(); // Stores client subscriptions
+
+// WebSocket Server
+wss.on("connection", (ws) => {
+  console.log("New WebSocket client connected");
+
+  ws.send(JSON.stringify({ message: "Connected to order book updates. Send { pairId: <id> } to subscribe." }));
+
+  ws.on("message", async (message) => {
+    try {
+      const { userID } = JSON.parse(message);
+      const userId = JSON.stringify(userID);
+      if (!userId) return;
+
+       // Add client to the subscription list
+  if (!clientSubscriptions.has(userId)) {
+    clientSubscriptions.set(userId, []);
+    console.log(`Client subscribed to userId: ${userId}`);
+    ws.send(JSON.stringify({ message: `Subscribed to userId: ${userId}` }));
+  }
+  clientSubscriptions.get(userId).push(ws);
+    } catch (error) {
+      console.error("Error parsing message:", error);
+    }
+  });
+
+  // ws.on("close", () => {
+  //   console.log("Client disconnected");
+  //   // Remove client from all subscriptions when they disconnect
+  //   clientSubscriptions.forEach((clients, userId) => {
+  //     clientSubscriptions.set(
+  //       userId,
+  //       clients.filter((client) => client !== ws)
+  //     );
+  //   });
+  // });
+});
+
+// Broadcast updates to only relevant clients
+function broadcastUpdate(userId, update) {
+  // if (!clientSubscriptions.has(userId)) return;
+
+  // send to ALL clients
+  clientSubscriptions.forEach((clients, userID) => {
+
+ // Ensure userId matches
+      clients.forEach((client) => { // Iterate over all subscribed clients
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify(update));
+        }
+      });
+  });
+
+  // send to SPECIFIED ORDER USER ID
+  // clientSubscriptions.get(userId).forEach((client) => {
+  //   if (client.readyState === WebSocket.OPEN) {
+  //     client.send(JSON.stringify(update));
+  //   }
+  // });
+}
 
 
 // Kafka client and consumer setup
@@ -44,14 +108,35 @@ const consumeMessages = async () => {
         console.log(
           `Received message from topic ${topic}: ${JSON.stringify(data)}`
         )
+        const Bigprice = new Big(data.price);
+        const Bigquantity = new Big(data.quantity);
+        const messageToSend = {
+          messageType: data.type,
+          user_id: data.uid,
+          pair_id: data.symbol,
+          type: data.side === 0 ? 'BUY' : 'SELL',
+          price: Bigprice.toFixed(8),
+          quantity: Bigquantity.toFixed(8),
+          execute_qty: data.execute_qty || 0,
+          amount: parseFloat(data.price) * parseFloat(data.quantity) || 0,
+          // final_amount: parseFloat(data.execution_price) * parseFloat(data.execute_qty),
+          order_id: data.hash,
+          api_order_id: data.hash,
+          status: data.status == "PENDING" || "PARTIALLY_FILLED" ? "OPEN" : data.status,
+          date_time: Date.now(),
+        };
+        
+        broadcastUpdate(data.uid, messageToSend);
         // data.status = data.status == "PENDING" ? "OPEN" : data.status
         // console.log('data.status : ',data.status)
         // const [base_asset,quote_asset] = data.symbol.split('/')
         const asset_data = await raw_query('select base_asset_id,quote_asset_id from crypto_pair where id=?',[parseInt(data.symbol)])
         const base_asset_id = asset_data[0].base_asset_id
         const quote_asset_id = asset_data[0].quote_asset_id  
+
     
         if(data.type === 1){
+          
           const DataCount = await Get_Where_Universal_Data('id','orderbook_open_orders',{order_id : `${data.hash}`})
          
           if(DataCount.length == 0){
@@ -64,7 +149,7 @@ const consumeMessages = async () => {
             coin_id: base_asset_id,
             coin_base: quote_asset_id,
             type: data.side === 0 ? 'BUY' : 'SELL',
-            price: data.price,
+            price:  Big(data.price),
             amount: 0,
             order_type:"LIMIT",
             status:data.status,
@@ -72,12 +157,12 @@ const consumeMessages = async () => {
           }) 
         }
         else{
-          await Update_Universal_Data("orderbook_open_orders",{status:"OPEN"},{order_id : `${data.hash}`})
+          await Update_Universal_Data("orderbook_open_orders",{status:"OPEN",date_time : Date.now()},{order_id : `${data.hash}`})
         }
       }
         if(data.type === 2){
            const update_status = data.status == "PARTIALLY_FILLED" ? "OPEN" : data.status
-           const result = await raw_query('UPDATE orderbook_open_orders SET execute_qty = execute_qty + ?,status = ? WHERE order_id = ?',[data.execute_qty,update_status,data.hash])
+           const result = await raw_query('UPDATE orderbook_open_orders SET execute_qty = execute_qty + ?,status = ?,date_time=? WHERE order_id = ?',[data.execute_qty,update_status,Date.now(),data.hash])
   
            if(result.affectedRows === 0){
               await Create_Universal_Data('orderbook_open_orders',{
@@ -151,8 +236,9 @@ const consumeMessages = async () => {
              });
            
             const opening_balance_asset = data.side === 0 ? base_asset_id : quote_asset_id;
+          
             const opening_balance = await Get_Where_Universal_Data('balance','balances',{user_id : `${data.uid}` , coin_id : `${opening_balance_asset}`});
-           
+     
           // Update balance based on the side of the order
           if (data.side === 0) { // BUY
           //  const result1 =  await raw_query('UPDATE balances SET balance = balance + ? WHERE user_id = ? AND coin_id = ?', [data.execute_qty, data.uid, base_asset_id]);
@@ -194,7 +280,6 @@ const consumeMessages = async () => {
             const order_fee = parseFloat(orderAmount) * parseFloat(fee_percent) / 100
             const order_amount_with_fee = parseFloat(orderAmount) + parseFloat(order_fee)
 
-            console.log("order_amount_with_fee",order_amount_with_fee , data.uid, quote_asset_id)
             await raw_query('UPDATE balances_inorder SET balance = balance - ? WHERE user_id = ? AND coin_id = ?', [order_amount_with_fee, data.uid, quote_asset_id]);
             
           } else if (data.side === 1) {    // SELL
@@ -269,7 +354,7 @@ const consumeMessages = async () => {
           var amount = 0
           
           if(executed_qty == 0){
-            await Update_Universal_Data('orderbook_open_orders',{status:"CANCELLED"},{order_id : `${data.hash}`})
+            await Update_Universal_Data('orderbook_open_orders',{status:"CANCELLED",date_time : Date.now()},{order_id : `${data.hash}`})
 
             const orderAmount = orderType === "BUY" ? get_orderData[0].final_amount : get_orderData[0].quantity
             amount = orderAmount
@@ -281,7 +366,7 @@ const consumeMessages = async () => {
             );
           }
           else if(remaining_qty != 0){
-            await Update_Universal_Data('orderbook_open_orders',{status:"PARTIALLY_FILLED"},{order_id : `${data.hash}`})
+            await Update_Universal_Data('orderbook_open_orders',{status:"PARTIALLY_FILLED", date_time : Date.now()},{order_id : `${data.hash}`})
 
             const trade_fee = await Get_Where_Universal_Data('fees_percent_inr','settings_fees',{id : 1})
             const fee_percent = trade_fee[0].fees_percent_inr

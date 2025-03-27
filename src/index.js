@@ -4,7 +4,7 @@ import { createClient } from 'redis';
 import cluster from 'cluster';
 import os from 'os';
 import createMessageHandler from './handleMessage';
-const { Kafka } = require('kafkajs');
+import { Kafka } from 'kafkajs';
 
 const kafka = new Kafka({
   clientId: 'binance-producer',

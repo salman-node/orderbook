@@ -182,20 +182,28 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
         }
   
         const [orderBookJson, matchType, matchedQuantity] = luaResult;
-        const matchedQuantityBig = new Big(matchedQuantity);
+        const matchedQuantityBig = matchedQuantity ? new Big(matchedQuantity) : new Big(0); // Default to 0 if undefined
+        console.log('matchedQuantity: ', matchedQuantity, 'matchedQuantityBig: ', matchedQuantityBig.toString()); 
         const orderBookData = JSON.parse(orderBookJson);
-        console.log('matchType: ', matchType, 'matchedQuantity: ', matchedQuantityBig);
 
-        // Add trade details to Trade_history list in Redis
-        await redisClient.RPUSH(`${symbol}:trade_history`, JSON.stringify({
+        const tradeData = JSON.stringify({
           qty: matchedQuantityBig.toString(),
           buyer_hash: side === 0 ? hash : orderBookData.hash,
           seller_hash: side === 1 ? hash : orderBookData.hash,
           price: orderBookData.price,
           timestamp: Date.now(),
           symbol,
-          type: side === 0 ? 'SELL' : 'BUY',
-        }));
+          type: side === 0 ? "SELL" : "BUY",
+        });
+        
+        console.log(`${symbol}:trade_history`);
+        console.log(tradeData);
+        
+        // Ensure ZADD receives correct arguments
+        await redisClient.ZADD(
+          `${symbol}:trade_history`,
+          [{ score: Date.now(), value: tradeData }] // Correct ZADD syntax for Node.js Redis client
+        );
 
         if (matchType === 'MATCHED') {
           logger.info(JSON.stringify({
@@ -303,10 +311,7 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
             status: orderSideStatus,
           }));
         }
-
-        console.log('remainingQuantity: ', remainingQuantity.toString(), 'matchedQuantity: ', matchedQuantityBig.toString());
         remainingQuantity = remainingQuantity.minus(matchedQuantityBig);
-        console.log('remainingQuantity: ', remainingQuantity.toString());
         matchedOrders.push({ price: orderBookData.price, quantity: matchedQuantityBig.toString() });
 
         await redisClient.multi().RPUSH(`${symbol}:MATCHED`, JSON.stringify({

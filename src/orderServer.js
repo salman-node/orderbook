@@ -11,8 +11,14 @@ import { randomUUID } from 'crypto';
 import connection from './db_connection.js';
 import { createClient } from 'redis';
 import cors from 'cors';
-import RedisClient from 'redis/dist/lib/client/index.js';
-import { parse } from 'path';
+import path from "path";
+import { fileURLToPath } from "url";
+import Big from 'big.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 const wsClients = new Map();
 
@@ -62,7 +68,6 @@ function connectWebSocket(userId) {
   return wsClients.get(userId);
 }
 
-
 app.post('/connect-websocket', (req, res) => {
   const { userId } = req.body;
   
@@ -83,14 +88,14 @@ app.post('/place-order', async (req, res) => {
  if ([uid, side, pair_id, price, quantity, order_type].some(val => val === undefined || val === null)) {
   return res.status(400).send({ message: 'send all request data.' });
 }
-if (
+if(
   !Number.isInteger(uid) ||
   ![0, 1].includes(side) ||
   !Number.isInteger(pair_id) ||
   !(typeof price === "number" && price > 0) ||
   !(typeof quantity === "number" && quantity > 0) ||
   order_type !== "limit"
-) {
+){
   return res.status(400).send({ message: "Invalid request data." });
 }
 
@@ -213,11 +218,9 @@ if (
 }
 });
 
-
-
 app.post('/cancel-order', async (req, res) => {
-  const { uid, side, pair_id, orderId } = req.body;
-  if ([uid, side, pair_id, orderId].some(val => val === undefined || val === null)) {
+  const { uid, side, pair_id, order_id } = req.body;
+  if ([uid, side, pair_id, order_id].some(val => val === undefined || val === null)) {
     return res.status(400).send({ message: 'send all request data.' });
   }
   if (
@@ -227,17 +230,22 @@ app.post('/cancel-order', async (req, res) => {
   ) {
     return res.status(400).send({ message: "Invalid request data." });
   }
+
+  const wsClient = wsClients.get(uid);
+  if (!wsClient || wsClient.readyState !== WebSocket.OPEN) {
+    return res.status(400).send({ message: 'WebSocket connection not established. Please refresh the Trade page.' });
+  }
   const proto = protobuf.loadSync('./orderBook.proto');  // Load your .proto file
   // console.log(proto);
   const OrderMessage = proto.lookupType('orderbook.CancelOrder');  // Lookup your message type
   // console.log(OrderMessage);
   const message = OrderMessage.create({
-    uid : uid,
-    orderId : orderId,
+    uid : uid.toString(),
+    orderId : order_id,
     side : parseInt(side),
-    symbol : symbol,
+    symbol : pair_id.toString(),
   });
-  console.log(message)
+  
   // Verify the message before encoding
   const errMsg = OrderMessage.verify(message);
   if (errMsg) {
@@ -251,11 +259,10 @@ app.post('/cancel-order', async (req, res) => {
   // Convert the binary buffer to base64 string 
   const base64Message = base64.fromByteArray(buffer);
   const finalMessage = `3|${base64Message}`
-  console.log(finalMessage)
+  
   wsClient.send(finalMessage);
-  return res.send({ message: 'Order placed successfully' });
+  return res.send({ message: 'Order cancelled successfully' });
 });
-
 
 async function getOrderBookData(pairId) {
   try {
@@ -281,8 +288,6 @@ async function getOrderBookData(pairId) {
   }
 }
 
-
-
 app.get("/order-book/:pairId", async (req, res) => {
   const pairId = req.params.pairId;
   const data = await getOrderBookData(pairId);
@@ -292,17 +297,24 @@ app.get("/order-book/:pairId", async (req, res) => {
 app.get('/trade-history/:pairId', async (req, res) => {
   try {
     const { pairId } = req.params;
-    const trades = await redisClient.lRange(`${pairId}:trade_history`, -5, -1); // Fetch all trades
 
-    const tradeHistory = trades.map(trade => {
-      const parsedTrade = JSON.parse(trade);
-      return {
+    // Fetch last 5 trades from sorted set
+    const trades = await redisClient.zRange(
+      `${pairId}:trade_history`,
+      -5,
+      -1,
+      { WITHSCORES: true }
+    );
+    const tradeHistory = [];
+    for (let i = 0; i < trades.length; i ++) {
+      const parsedTrade = JSON.parse(trades[i]); // Trade data
+      tradeHistory.push({
         price: parsedTrade.price,
         qty: parsedTrade.qty,
-        time: parsedTrade.timestamp,
+        time: parsedTrade.timestamp, // Score (timestamp)
         type: parsedTrade.type
-      };
-    });
+      });
+    }
 
     res.json(tradeHistory);
   } catch (error) {
@@ -311,49 +323,95 @@ app.get('/trade-history/:pairId', async (req, res) => {
   }
 });
 
+
 app.get("/market-summary/:pairId", async (req, res) => {
   try {
     const { pairId } = req.params;
     const now = Date.now();
     const oneDayAgo = now - 24 * 60 * 60 * 1000;
 
-    // Fetch last 1000 trades (adjust count as needed)
-    const tradeHistory = await redisClient.lRange(`${pairId}:trade_history`, -1000, -1);
+    // Fetch trades from the sorted set within the last 24 hours
+    const tradeHistory = await redisClient.zRangeByScore(
+      `${pairId}:trade_history`,
+      oneDayAgo,
+      now,
+      { WITHSCORES: true }
+    );
 
     if (!tradeHistory.length) {
-      return res.json({ currentPrice: 0, low24h: 0, high24h: 0, volume24h: 0 });
+      return res.status(200).json({ currentPrice: 0, low24h: 0, high24h: 0, volume24h: 0, change24h: 0 });
     }
 
-    // Parse and filter trades within 24 hours
-    const trades = tradeHistory
-      .map((trade) => JSON.parse(trade))
-      .filter((trade) => trade.timestamp >= oneDayAgo);
-
-    if (!trades.length) {
-      return res.json({ currentPrice: 0, low24h: 0, high24h: 0, volume24h: 0 });
+    // Convert Redis response into trade objects
+    const trades = [];
+    for (let i = 0; i < tradeHistory.length; i ++) {
+      trades.push({ ...JSON.parse(tradeHistory[i]), timestamp: parseInt(tradeHistory[i].timestamp) });
     }
 
-    // Extract necessary values
-    const currentPrice = trades[trades.length - 1].price; // Last trade price
+    // Sort trades by timestamp (optional since ZRANGE already returns sorted)
+    trades.sort((a, b) => a.timestamp - b.timestamp);
+
+    const v24h = trades.reduce((sum, trade) => sum.plus(new Big(trade.qty)), new Big(0));
+
+    const currentPrice = trades[trades.length - 1].price;
     const low24h = Math.min(...trades.map((trade) => trade.price));
     const high24h = Math.max(...trades.map((trade) => trade.price));
-    const volume24h = trades.reduce((sum, trade) => sum + parseFloat(trade.qty), 0);
+    const volume24h = v24h.toString();
 
     const openingPrice = trades[0].price;
+    const percent = ((currentPrice - openingPrice) / openingPrice) * 100;
+  
+    const change24h = openingPrice
+      ? (percent).toFixed(4)
+      : "0.00";
 
-  // Calculate 24h change percentage
-   const change24h = openingPrice
-    ? ((currentPrice - openingPrice) / openingPrice * 100).toFixed(2)
-    : "0.00";
-
-  res.json({ currentPrice, low24h, high24h, volume24h, change24h });
-
+    res.status(200).json({ currentPrice, low24h, high24h, volume24h, change24h });
 
   } catch (error) {
     console.error("Error fetching market summary:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+app.get('/balance/:userId/:pairId', async (req, res) => {
+  try {
+      const { userId, pairId } = req.params;
+
+      // Get base_asset_id and quote_asset_id from crypto_pair table
+      const [pair] = await connection.query(`
+          SELECT base_asset_id, quote_asset_id 
+          FROM crypto_pair 
+          WHERE id = ?`, [pairId]);
+
+      if (!pair) {
+          return res.status(404).json({ error: "Invalid pair ID" });
+      }
+
+      const base_asset_id = pair[0].base_asset_id;
+      const quote_asset_id = pair[0].quote_asset_id;
+      console.log(base_asset_id, quote_asset_id)
+      // Get user balances for base and quote assets
+      const [balances] = await connection.query(`
+          SELECT coin_id, balance 
+          FROM balances
+          WHERE user_id = ? AND (coin_id = ? OR coin_id = ?)`, 
+          [userId, base_asset_id, quote_asset_id]);
+  
+      // Format response
+      const userBalance = {
+          sell_balance: balances.find(b => b.coin_id == base_asset_id)?.balance || "0.00",
+          buy_balance: balances.find(b => b.coin_id == quote_asset_id)?.balance || "0.00"
+      };
+
+      res.status(200).json(userBalance);
+
+  } catch (error) {
+      console.error("Error fetching balance:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 const INTERVAL_MAP = {
   '1m': 1,
   '5m': 5,
@@ -383,7 +441,7 @@ async function getOHLC(interval, pairId, startTime, endTime, numCandles = 100) {
       WHERE pair_id = ? AND date_time BETWEEN ? AND ?
       ORDER BY date_time ASC;
     `;
-    
+
     const [rows] = await connection.execute(query, [pairId, startTime, endTime]);
 
     const candles = {};
@@ -434,24 +492,69 @@ async function getOHLC(interval, pairId, startTime, endTime, numCandles = 100) {
   }
 }
 
-
 // API endpoint
 app.get("/candlestick/:pairId", async (req, res) => {
   const { pairId } = req.params;
+
+  if (!pairId) {
+    return res.status(400).json({ error: "Missing required parameter: pairId" });
+  }
+ 
   const { interval, startTime, endTime, numCandles = 100 } = req.query;
 
   if (!interval) {
     return res.status(400).json({ error: "Missing required parameter: interval" });
   }
-  
   const data = await getOHLC(interval, pairId, parseInt(startTime) || null, parseInt(endTime) || null, parseInt(numCandles));
   res.status(200).json(data);
 });
 
-// Example request:
-// http://localhost:9696/candlestick/:pairId?interval=1m&startTime=1742236200000&endTime=1742238200000&numCandles=100
+app.get('/get-crypto-pairs/', async (req, res) => {
+  try {
+    // const { pairId } = req.params;
+    const [rows] = await connection.execute('SELECT id,base_asset_id,quote_asset_id,pair_symbol,current_price,min_base_qty,max_base_qty,min_quote_qty,max_quote_qty,chart_url,icon,change_in_price,quantity_decimal,price_decimal FROM crypto_pair');
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error fetching crypto pairs:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
+app.get('/user-open-orders/:pairId', async (req, res) => {
+  try {
+    const { pairId } = req.params;
+    if (!pairId) {
+      return res.status(400).json({ error: 'Invalid pairId' });
+    }
+    const [usdrOrders] = await connection.execute('SELECT * FROM orderbook_open_orders WHERE status = "OPEN" and pair_id = ? order by date_time desc limit 25',[pairId]);
+    res.status(200).json({
+      message: 'User open orders fetched successfully',
+      data: usdrOrders
+    });
+  }
+  catch (error) { 
+    console.error('Error fetching user open orders:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }   
+});
 
+app.get('/user-order-history/:pairId', async (req, res) => {
+  try {
+    const { pairId } = req.params;
+    if (!pairId) {
+      return res.status(400).json({ error:'Invalid pair ID'});
+    }
+    const [usdrOrders] = await connection.execute('SELECT * FROM orderbook_open_orders WHERE pair_id = 1 and status = "FILLED" or status = "CANCELLED" or status = "PARTIALLY_FILLED" order by date_time desc limit 25',[pairId]);
+    res.status(200).json({
+      message: 'User open orders fetched successfully',
+      data: usdrOrders
+    });
+  }
+  catch (error) { 
+    console.error('Error fetching user open orders:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }   
+});
 
 app.listen(9696, () => {
   console.log('Server started on port 9696');

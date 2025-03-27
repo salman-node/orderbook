@@ -474,7 +474,7 @@ const placeOrder = async () => {
 
   // Create buy and sell orders
   const buyOrder = {
-    uid: 15, // Buyer ID
+    uid: 10, // Buyer ID
     side: 1, // 1 for Sell
     pair_id: 5,
     price:parseFloat((Math.random() * (7508450.2 - 7508350.2) + 7508350.2).toFixed(2)),
@@ -483,7 +483,7 @@ const placeOrder = async () => {
   };
 
   const sellOrder = {
-    uid: 10, // Seller ID
+    uid: 15, // Seller ID
     side: 0, // 0 for Buy
     pair_id: 5,
     price:parseFloat((Math.random() * (7508450.2 - 7508350.2) + 7508350.2).toFixed(2)),
@@ -505,7 +505,7 @@ const placeOrder = async () => {
 };
 
 // Place orders every 2 seconds
-setInterval(placeOrder, 2000);
+setInterval(placeOrder, 5000);
 
 
 
