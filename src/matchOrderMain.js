@@ -18,14 +18,13 @@ const logger = winston.createLogger({
 
 const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClient }) => {
   try {
-    console.log('side:', side, 'price:', price, 'quantity:', quantity);
+ 
     const opposingSide = side === 0 ? 'ASK_ORDERS' : 'BID_ORDERS'; // Opposing side: 0 for Buy, 1 for Sell
     const orderSide = side === 0 ? 'BID_ORDERS' : 'ASK_ORDERS'; // Order side: 0 for Buy, 1 for Sell
     const opposingKey = `${symbol}:${opposingSide}`;
     const orderKey = `${symbol}:${orderSide}`;
 
     const ts = new Big(Date.now());
-    const adjustmentFactor = new Big(1e10);
     const numericPrice = new Big(price);
 
     let remainingQuantity = new Big(quantity);
@@ -34,105 +33,124 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
 
     // Lua Script for matching orders
     const luaScript = `
-      local function recalculateOrderBook(bookKey, orderSetKey)
-          redis.call("DEL", bookKey) -- Clear the ASK/BID list before recalculating
-      
-          local orders = redis.call("ZRANGE", orderSetKey, 0, -1) -- Get all open orders
-          local priceMap = {}
-      
-          for _, orderJson in ipairs(orders) do
-              local order = cjson.decode(orderJson)
-              local price = tostring(order.price)
-              local quantity = tonumber(order.quantity)
-      
-              if priceMap[price] then
-                  priceMap[price] = priceMap[price] + quantity  -- Merge quantities for the same price
-              else
-                  priceMap[price] = quantity
-              end
-          end
-      
-          -- Store updated ASK/BID list
-          for price, qty in pairs(priceMap) do
-              redis.call("ZADD", bookKey, price, cjson.encode({ price = price, quantity = qty }))
-          end
-      end
-      
-      local orderRange = redis.call('ZRANGE', KEYS[1], ARGV[1], ARGV[1], 'WITHSCORES')
-      if next(orderRange) == nil then
-          local newOrder = {
-              uid = ARGV[6],
-              ts = ARGV[7],
-              hash = ARGV[8], 
-              price = tonumber(ARGV[3]),
-              quantity = ARGV[2]
-          }
-          redis.call('ZADD', KEYS[2], ARGV[4], cjson.encode(newOrder))
-      
-          -- Recalculate ASK/BID from the order books
-          if ARGV[5] == "SELL" then
-              recalculateOrderBook(KEYS[3], KEYS[2]) -- Update ASK list from ASK_ORDERS
-          else
-              recalculateOrderBook(KEYS[4], KEYS[2]) -- Update BID list from BID_ORDERS
-          end
-      
-          return { 'ADDED', newOrder, 0 }
-      end
-      
-      local orderBookData = cjson.decode(orderRange[1])
-      local orderBookPrice = tonumber(orderBookData.price)
-      local orderBookQuantity = orderBookData.quantity
-      local requestedPrice = tonumber(ARGV[3])
-      local requestedQuantity = ARGV[2]
-      local newScore = tonumber(ARGV[4])
-      
-      -- Price check: Only match if the price conditions are met
-      if (ARGV[5] == "BUY" and orderBookPrice > requestedPrice) or (ARGV[5] == "SELL" and orderBookPrice < requestedPrice) then
-          local newOrder = {
-              uid = ARGV[6],
-              ts = ARGV[7],
-              hash = ARGV[8],
-              price = tonumber(ARGV[3]),
-              quantity = ARGV[2]
-          } 
-          redis.call('ZADD', KEYS[2], ARGV[4], cjson.encode(newOrder))
-      
-          -- Recalculate ASK/BID from the order books
-          if ARGV[5] == "SELL" then
-              recalculateOrderBook(KEYS[3], KEYS[2])
-          else
-              recalculateOrderBook(KEYS[4], KEYS[2])
-          end
-      
-          return { 'ADDED', newOrder, 1 }
-      end
-      
-      -- Match or partially match the order
-      if tonumber(orderBookQuantity) <= tonumber(requestedQuantity) then
-          redis.call('ZREM', KEYS[1], orderRange[1])
-      
-          -- Recalculate ASK/BID from order books
-          if ARGV[5] == "BUY" then
-              recalculateOrderBook(KEYS[3], KEYS[1])
-          else
-              recalculateOrderBook(KEYS[4], KEYS[1])
-          end
-      
-          return { orderRange[1], 'MATCHED', tostring(orderBookQuantity) }
-      else
-          orderBookData.quantity = tonumber(orderBookQuantity) - tonumber(requestedQuantity)
-          redis.call('ZREM', KEYS[1], orderRange[1])
-          redis.call('ZADD', KEYS[1], newScore, cjson.encode(orderBookData))
-      
-          -- Recalculate ASK/BID for partially matched orders
-          if ARGV[5] == "BUY" then
-              recalculateOrderBook(KEYS[3], KEYS[1])
-          else
-              recalculateOrderBook(KEYS[4], KEYS[1])
-          end
-      
-          return { orderRange[1], 'PARTIAL', requestedQuantity }
-      end`;
+    local function recalculateOrderBook(bookKey, orderSetKey)
+        redis.call("DEL", bookKey)
+    
+        local priceLevels = redis.call("ZRANGE", orderSetKey, 0, -1)
+        for _, price in ipairs(priceLevels) do
+            local listKey = orderSetKey .. ":" .. price
+            local orders = redis.call("LRANGE", listKey, 0, -1)
+            local totalQty = 0
+    
+            for _, orderJson in ipairs(orders) do
+                local order = cjson.decode(orderJson)
+                totalQty = totalQty + tonumber(order.quantity)
+            end
+    
+            if totalQty > 0 then
+                redis.call("ZADD", bookKey, tonumber(price), cjson.encode({ price = price, quantity = totalQty }))
+            end
+        end
+    end
+    
+    local requestedPrice = tonumber(ARGV[3])
+    local requestedQuantity = tonumber(ARGV[2])
+    local side = ARGV[5]
+    local newScore = tonumber(ARGV[4])
+    
+    -- Determine best price from opposing side
+    local bestPriceArr
+    if side == "BUY" then
+        bestPriceArr = redis.call("ZRANGE", KEYS[1], 0, 0) -- best ask
+    else
+        bestPriceArr = redis.call("ZREVRANGE", KEYS[1], 0, 0) -- best bid
+    end
+    
+    -- No opposing orders
+    if next(bestPriceArr) == nil then
+        local newOrder = {
+            uid = ARGV[6],
+            ts = ARGV[7],
+            hash = ARGV[8],
+            price = requestedPrice,
+            quantity = ARGV[2]
+        }
+    
+        redis.call('ZADD', KEYS[2], requestedPrice, tostring(requestedPrice))
+        redis.call("RPUSH", KEYS[2] .. ":" .. requestedPrice, cjson.encode(newOrder))
+    
+        if side == "SELL" then
+            recalculateOrderBook(KEYS[3], KEYS[2])
+        else
+            recalculateOrderBook(KEYS[4], KEYS[2])
+        end
+    
+        return { 'ADDED', newOrder, 0 }
+    end
+    
+    local bestPrice = tonumber(bestPriceArr[1])
+    local listKey = KEYS[1] .. ":" .. bestPrice
+    local listOrders = redis.call("LRANGE", listKey, 0, 0)
+    
+    if next(listOrders) == nil then
+        return { 'NO_MATCH', 'Empty list at best price' }
+    end
+    
+    local headOrder = cjson.decode(listOrders[1])
+    local orderBookQuantity = tonumber(headOrder.quantity)
+    
+    -- Check price match condition
+    if (side == "BUY" and requestedPrice < bestPrice) or
+       (side == "SELL" and requestedPrice > bestPrice) then
+        local newOrder = {
+            uid = ARGV[6],
+            ts = ARGV[7],
+            hash = ARGV[8],
+            price = requestedPrice,
+            quantity = ARGV[2]
+        }
+    
+        redis.call('ZADD', KEYS[2], requestedPrice, tostring(requestedPrice))
+        redis.call("RPUSH", KEYS[2] .. ":" .. requestedPrice, cjson.encode(newOrder))
+    
+        if side == "SELL" then
+            recalculateOrderBook(KEYS[3], KEYS[2])
+        else
+            recalculateOrderBook(KEYS[4], KEYS[2])
+        end
+    
+        return { 'ADDED', newOrder, 1 }
+    end
+    
+    -- MATCH
+    if orderBookQuantity <= requestedQuantity then
+        redis.call("LPOP", listKey)
+        local listLen = redis.call("LLEN", listKey)
+        if listLen == 0 then
+            redis.call("ZREM", KEYS[1], tostring(bestPrice))
+        end
+    
+        if side == "BUY" then
+            recalculateOrderBook(KEYS[3], KEYS[1])
+        else
+            recalculateOrderBook(KEYS[4], KEYS[1])
+        end
+    
+        return { listOrders[1], 'MATCHED', tostring(orderBookQuantity) }
+    else
+        headOrder.quantity = orderBookQuantity - requestedQuantity
+        redis.call("LSET", listKey, 0, cjson.encode(headOrder))
+    
+        if side == "BUY" then
+            recalculateOrderBook(KEYS[3], KEYS[1])
+        else
+            recalculateOrderBook(KEYS[4], KEYS[1])
+        end
+    
+        return { listOrders[1], 'PARTIAL', ARGV[2] }
+    end
+
+    `;
 
     try {
       while (remainingQuantity.gt(0)) {
@@ -144,7 +162,7 @@ const matchOrder = async ({ hash, uid, side, symbol, price, quantity, redisClien
             rangeArg.toString(),
             remainingQuantity.toString(),
             numericPrice.toString(),
-            (side === 0 ? numericPrice.minus(ts.div(adjustmentFactor)).toString() : numericPrice.plus(ts.div(adjustmentFactor)).toString()),
+            numericPrice.toString(),
             side === 0 ? "BUY" : "SELL",
             uid,
             ts.toString(),

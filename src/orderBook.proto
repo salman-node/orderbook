@@ -26,4 +26,5 @@ message CancelOrder {
   };
   required Side side = 3;
   required string symbol = 4;
+  required string price = 5;
 }

@@ -119,6 +119,7 @@
 import redis from "redis";
 import {WebSocketServer } from "ws";
 import { raw_query} from './db_query.js';
+import Big from 'big.js';
 
 const redisConfig = {
   username: process.env.REDIS_USER || "default",
@@ -269,10 +270,12 @@ async function subscribeToRedis(pairId, key, updateType) {
 
         if (!trades.length) return;
 
+        const v24h = trades.reduce((sum, trade) => sum.plus(new Big(trade.qty)), new Big(0));
+
         const currentPrice = trades[trades.length - 1].price;
         const low24h = Math.min(...trades.map(trade => trade.price));
         const high24h = Math.max(...trades.map(trade => trade.price));
-        const volume24h = trades.reduce((sum, trade) => sum + parseFloat(trade.qty), 0);
+        const volume24h = v24h.toString();
         const openingPrice = trades[0].price;
         const change24h = openingPrice ? ((currentPrice - openingPrice) / openingPrice * 100).toFixed(2) : "0.00";
 

@@ -118,31 +118,27 @@ if(
   }
   const check_balance_asset = side === 0 ? quote_asset_id : base_asset_id
  
-  const order_amount = side === 0 ? parseFloat(price) * parseFloat(quantity) : quantity
-  const order_amount_for_fee = parseFloat(price) * parseFloat(quantity);
+  const order_amount = side === 0 ? Big(price).times(quantity) : Big(quantity);
+  const order_amount_for_fee = Big(price).times(Big(quantity));
 
   const trade_fee = await Get_Where_Universal_Data('fees_percent_inr,tds_percent_inr','settings_fees',{id : 1})
 
   const fee_percent = trade_fee[0].fees_percent_inr
   const tds_percent = trade_fee[0].tds_percent_inr
 
-  const fee = (parseFloat(order_amount_for_fee) * parseFloat(fee_percent)) / 100
-  const order_amount_after_execution =  parseFloat(order_amount_for_fee) - parseFloat(fee)
-  const tds = side === 0 ? 0 : (parseFloat(order_amount_after_execution) * parseFloat(tds_percent)) / 100
+  const fee = order_amount_for_fee.times(fee_percent).div(100);
+  const order_amount_after_execution =  order_amount_for_fee.minus(fee)
+  const tds = side === 0 ? Big(0) : order_amount_after_execution.times(Big(tds_percent)).div(100)
 
-  const order_amount_with_fee = side === 0 ? parseFloat(order_amount) + parseFloat(fee) : parseFloat(order_amount)
-  const order_amount_estimate_fee = side === 0 ?  parseFloat(order_amount_for_fee) + parseFloat(fee) : (parseFloat(order_amount_for_fee) - parseFloat(fee)) - parseFloat(tds)
+  const order_amount_with_fee = side === 0 ? order_amount.add(fee) : order_amount;
+  const order_amount_estimate_fee = side === 0 ?  order_amount_for_fee.add(fee) : (order_amount_for_fee).minus(fee).minus(tds)
   await conn.beginTransaction();
   const [user_balance] = await conn.query('select balance from balances where user_id = ? and coin_id = ? FOR UPDATE',[uid,check_balance_asset])
 
-    if(user_balance.length == 0){
-      await conn.rollback();
-      return res.status(400).send({ message: 'Insufficient balance.' });
-    }
-    if(Number(order_amount_with_fee) > Number(user_balance[0].balance)){
-      await conn.rollback();
-      return res.status(400).send({ message: 'Insufficient balance.' }); 
-    }
+  if (user_balance.length === 0 || Big(user_balance[0].balance).lt(order_amount_with_fee)) {
+    await conn.rollback();
+    return res.status(400).send({ message: 'Insufficient balance.' });
+  }
 
   const proto = protobuf.loadSync('./orderBook.proto');  // Load your .proto file
 
@@ -175,17 +171,18 @@ if(
 
   //insert into orderbook_open_orders
  const insert_order = await conn.query('insert into orderbook_open_orders (order_id,pair_id,quantity,execute_qty,user_id,coin_id,coin_base,type,price,amount,tds,fees,final_amount,order_type,status,date_time) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',  
-    [hash,pair_id,quantity,0,uid,base_asset_id,quote_asset_id,side === 0 ? 'BUY' : 'SELL',price,parseFloat(price) * parseFloat(quantity),tds,fee,order_amount_estimate_fee,"LIMIT","PENDING",Date.now()]
+    [hash,pair_id,quantity,0,uid,base_asset_id,quote_asset_id,side === 0 ? 'BUY' : 'SELL',price,Big(price).times(Big(quantity)).toString(),tds.toString(),fee.toString(),order_amount_estimate_fee.toString(),"LIMIT","PENDING",Date.now()]
   )
 
   if(insert_order.affectedRows == 0){
     await conn.rollback();
     return res.status(400).send({ message: 'Failed to create order.' });
   }
-
+ 
+  const closingBalance = Big(user_balance[0].balance).minus(order_amount_with_fee).toString();
 
  const insert_transaction = await conn.query('insert into transactions (user_id,coin_id,amount,opening,closing,order_id,type,remarks,txn_id,date_time) values (?,?,?,?,?,?,?,?,?,?)',
-    [uid,side == 0 ? quote_asset_id : base_asset_id,order_amount_with_fee,user_balance[0].balance,user_balance[0].balance - order_amount_with_fee,hash,'Dr',side === 0 ? 'Buy' : 'Sale',hash,Date.now()]
+    [uid,side == 0 ? quote_asset_id : base_asset_id,order_amount_with_fee.toString(),user_balance[0].balance,closingBalance,hash,'Dr',side === 0 ? 'Buy' : 'Sale',hash,Date.now()]
   )
 
   if(insert_transaction.affectedRows == 0){
@@ -197,12 +194,12 @@ if(
   // const [result] = await conn.query('UPDATE balances SET balance = balance - ? WHERE user_id = ? AND coin_id = ?',[parseFloat(order_amount_with_fee),uid,check_balance_asset])
   const result = await conn.query(
     'INSERT INTO balances (user_id, coin_id, balance) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE balance = balance - VALUES(balance)',
-    [uid, check_balance_asset, order_amount_with_fee]
+    [uid, check_balance_asset, order_amount_with_fee.toString()]
   );
 
   if(result.affectedRows !== 0){
     wsClient.send(finalMessage);
-    await conn.query('INSERT INTO balances_inorder (user_id, coin_id, balance) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE balance = balance + VALUES(balance)',[uid,side == 0 ? quote_asset_id : base_asset_id,order_amount_with_fee])
+    await conn.query('INSERT INTO balances_inorder (user_id, coin_id, balance) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE balance = balance + VALUES(balance)',[uid,side == 0 ? quote_asset_id : base_asset_id,order_amount_with_fee.toString()])
     await conn.commit(); 
     return res.status(200).send({ message: 'Order placed successfully',data:{order_id:hash} });
   }
@@ -219,14 +216,16 @@ if(
 });
 
 app.post('/cancel-order', async (req, res) => {
-  const { uid, side, pair_id, order_id } = req.body;
-  if ([uid, side, pair_id, order_id].some(val => val === undefined || val === null)) {
+  const { price,uid, side, pair_id, order_id } = req.body;
+  if ([uid, side, pair_id, order_id,price].some(val => val === undefined || val === null)) {
     return res.status(400).send({ message: 'send all request data.' });
   }
   if (
     !Number.isInteger(uid) ||
     ![0, 1].includes(side) ||
-    !Number.isInteger(pair_id) 
+    !Number.isInteger(pair_id) ||
+    !String(order_id).trim() ||
+    !( price > 0)
   ) {
     return res.status(400).send({ message: "Invalid request data." });
   }
@@ -244,8 +243,9 @@ app.post('/cancel-order', async (req, res) => {
     orderId : order_id,
     side : parseInt(side),
     symbol : pair_id.toString(),
+    price : price.toString()
   });
-  
+
   // Verify the message before encoding
   const errMsg = OrderMessage.verify(message);
   if (errMsg) {
@@ -339,7 +339,22 @@ app.get("/market-summary/:pairId", async (req, res) => {
     );
 
     if (!tradeHistory.length) {
-      return res.status(200).json({ currentPrice: 0, low24h: 0, high24h: 0, volume24h: 0, change24h: 0 });
+      // Fetch the last recorded trade from history
+      const lastTrade = await redisClient.zRange(`${pairId}:trade_history`, -1, -1, { WITHSCORES: true });
+    
+      if (!lastTrade.length) {
+        return res.status(200).json({ currentPrice: 0, low24h: 0, high24h: 0, volume24h: 0, change24h: 0 });
+      }
+    
+      const lastTradeData = JSON.parse(lastTrade[0]);
+    
+      return res.status(200).json({ 
+        currentPrice: lastTradeData.price, 
+        low24h: lastTradeData.price, 
+        high24h: lastTradeData.price, 
+        volume24h: 0, 
+        change24h: 0 
+      });
     }
 
     // Convert Redis response into trade objects
@@ -363,7 +378,7 @@ app.get("/market-summary/:pairId", async (req, res) => {
   
     const change24h = openingPrice
       ? (percent).toFixed(4)
-      : "0.00";
+      : "0.0000";
 
     res.status(200).json({ currentPrice, low24h, high24h, volume24h, change24h });
 
@@ -383,13 +398,13 @@ app.get('/balance/:userId/:pairId', async (req, res) => {
           FROM crypto_pair 
           WHERE id = ?`, [pairId]);
 
-      if (!pair) {
+      if (!pair || pair.length === 0) {
           return res.status(404).json({ error: "Invalid pair ID" });
       }
 
       const base_asset_id = pair[0].base_asset_id;
       const quote_asset_id = pair[0].quote_asset_id;
-      console.log(base_asset_id, quote_asset_id)
+
       // Get user balances for base and quote assets
       const [balances] = await connection.query(`
           SELECT coin_id, balance 
@@ -544,7 +559,7 @@ app.get('/user-order-history/:pairId', async (req, res) => {
     if (!pairId) {
       return res.status(400).json({ error:'Invalid pair ID'});
     }
-    const [usdrOrders] = await connection.execute('SELECT * FROM orderbook_open_orders WHERE pair_id = 1 and status = "FILLED" or status = "CANCELLED" or status = "PARTIALLY_FILLED" order by date_time desc limit 25',[pairId]);
+    const [usdrOrders] = await connection.execute('SELECT * FROM orderbook_open_orders WHERE pair_id = ? and status = "FILLED" or status = "CANCELLED" or status = "PARTIALLY_FILLED" order by date_time desc limit 25',[pairId]);
     res.status(200).json({
       message: 'User open orders fetched successfully',
       data: usdrOrders

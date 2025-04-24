@@ -463,7 +463,7 @@
 //   // placebothorders();
 
 // ##############################################################################################################
-  import axios from 'axios';
+import axios from 'axios';
 
 const url = 'http://localhost:9696/place-order';
 
@@ -505,7 +505,7 @@ const placeOrder = async () => {
 };
 
 // Place orders every 2 seconds
-setInterval(placeOrder, 5000);
+setInterval(placeOrder, 100);
 
 
 

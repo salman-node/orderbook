@@ -1,5 +1,5 @@
 const userID = 15; // Example pair ID (change as needed)
-const ws = new WebSocket("ws://192.168.0.46:8081"); // Replace with actual server IP/hostname
+const ws = new WebSocket("ws://192.168.0.49:8081"); // Replace with actual server IP/hostname
 
 ws.onopen = () => {
   console.log("Connected to WebSocket server");
