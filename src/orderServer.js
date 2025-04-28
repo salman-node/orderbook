@@ -571,7 +571,7 @@ app.get('/user-order-history/:pairId', async (req, res) => {
   }   
 });
 
-app.listen(9696, () => {
+app.listen(9696,'0.0.0.0', () => {
   console.log('Server started on port 9696');
 });
 
